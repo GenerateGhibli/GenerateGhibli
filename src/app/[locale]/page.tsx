@@ -1,15 +1,45 @@
 import fs from 'fs'
 import path from 'path'
 import { getSortedPostsData } from '@/lib/posts'
-import ResourceList from '@/components/ResourceList'
-import ArticleList from '@/components/ArticleList'
+import { StaticResourceList } from '@/components/StaticResourceList'
+import { StaticArticleList } from '@/components/StaticArticleList'
 import { Metadata } from 'next'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 
 export const metadata: Metadata = {
-  title: 'GhibliHub - 吉卜力风格AI图像生成资源导航 | Studio Ghibli Style AI Art Resources',
-  description: '探索吉卜力风格AI图像生成的完整资源库。收集最佳提示词、模型、教程和工具，创建宫崎骏和吉卜力工作室风格的梦幻艺术作品。',
+  title: 'GenerateGhibli - 吉卜力风格AI图像生成资源导航 | Studio Ghibli Style AI Art Generator',
+  description: '探索吉卜力风格AI图像生成的完整资源库。收集最佳AI工具、模型和灵感，轻松创建宫崎骏和吉卜力工作室风格的魔幻世界和角色。免费在线生成吉卜力风格图片。',
+  keywords: '吉卜力风格, AI图像生成, 宫崎骏, Studio Ghibli, AI艺术, 人工智能绘画, 吉卜力AI, 动漫风格, AI绘画工具, 吉卜力画风',
+  openGraph: {
+    title: 'GenerateGhibli - 吉卜力风格AI图像生成资源导航',
+    description: '探索吉卜力风格AI图像生成的完整资源库。收集最佳AI工具、模型和灵感，轻松创建宫崎骏和吉卜力工作室风格的魔幻世界和角色。',
+    url: 'https://generateghibli.org',
+    siteName: 'GenerateGhibli',
+    images: [
+      {
+        url: 'https://toimg.xyz/file/5aa892c8e8385232fcdf3.png',
+        width: 1200,
+        height: 630,
+        alt: 'GenerateGhibli - 吉卜力风格AI图像生成资源导航',
+      },
+    ],
+    locale: 'zh_CN',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'GenerateGhibli - 吉卜力风格AI图像生成资源导航',
+    description: '探索吉卜力风格AI图像生成的完整资源库。收集最佳AI工具、模型和灵感，轻松创建宫崎骏和吉卜力工作室风格的魔幻世界和角色。',
+    images: ['https://toimg.xyz/file/5aa892c8e8385232fcdf3.png'],
+  },
+  alternates: {
+    canonical: 'https://generateghibli.org',
+    languages: {
+      'en': 'https://generateghibli.org/en',
+      'zh': 'https://generateghibli.org/zh',
+    },
+  },
 }
 
 export default function Home({ params }: { params: { locale: string } }) {
@@ -27,23 +57,23 @@ export default function Home({ params }: { params: { locale: string } }) {
   const getText = () => {
     if (params.locale === 'zh') {
       return {
-        title: 'GhibliHub',
+        title: 'GenerateGhibli',
         subtitle: '吉卜力风格AI图像生成资源导航',
-        description: '探索创建宫崎骏和吉卜力工作室风格艺术的完整资源库。我们精心收集了最佳提示词、模型、教程和工具，帮助您轻松生成充满魔法的梦幻世界、自然风光和令人难忘的角色。无论您是AI艺术爱好者还是吉卜力迷，这里都能找到灵感和资源。',
+        description: '探索创建宫崎骏和吉卜力工作室风格艺术的完整资源库。我们精心收集了最佳AI工具、模型和灵感，帮助您轻松生成充满魔法的梦幻世界、自然风光和令人难忘的角色。无论您是AI艺术爱好者还是吉卜力迷，这里都能找到适合您的资源。',
         exploreButton: '探索资源库',
-        learnMore: '查看教程',
+        learnMore: '查看灵感',
         resourcesTitle: '精选资源',
-        articlesTitle: '最新教程'
+        articlesTitle: '创作灵感'
       }
     }
     return {
-      title: 'GhibliHub',
+      title: 'GenerateGhibli',
       subtitle: 'Studio Ghibli Style AI Art Generation Resources',
-      description: 'Explore a comprehensive collection of resources for creating Hayao Miyazaki and Studio Ghibli style art with AI. Discover curated prompts, models, tutorials, and tools to generate magical landscapes, whimsical characters, and enchanted worlds inspired by the beloved animation studio.',
+      description: 'Explore a comprehensive collection of resources for creating Hayao Miyazaki and Studio Ghibli style art with AI. Discover curated tools, models, and inspiration to generate magical landscapes, whimsical characters, and enchanted worlds inspired by the beloved animation studio.',
       exploreButton: 'Explore Resources',
-      learnMore: 'View Tutorials',
+      learnMore: 'View Inspiration',
       resourcesTitle: 'Featured Resources',
-      articlesTitle: 'Latest Tutorials'
+      articlesTitle: 'Creative Inspiration'
     }
   }
   
@@ -85,14 +115,12 @@ export default function Home({ params }: { params: { locale: string } }) {
 
       {/* Resources Section */}
       <section>
-        <h2 className="text-3xl font-serif font-semibold tracking-wide mb-8 ghibli-title">{text.resourcesTitle}</h2>
-        <ResourceList resources={resources} />
+        <StaticResourceList resources={resources} locale={params.locale} />
       </section>
       
       {/* Articles Section */}
       <section>
-        <h2 className="text-3xl font-serif font-semibold tracking-wide mb-8 ghibli-title">{text.articlesTitle}</h2>
-        <ArticleList articles={allPostsData} />
+        <StaticArticleList articles={allPostsData} locale={params.locale} />
       </section>
     </div>
   )

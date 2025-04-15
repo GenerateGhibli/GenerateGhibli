@@ -1,4 +1,4 @@
-// components/ResourceList.js
+// components/StaticResourceList.js
 import Link from 'next/link'
 import { ExternalLink } from 'lucide-react'
 import {
@@ -8,14 +8,16 @@ import {
   CardDescription,
 } from "@/components/ui/card"
 
-export default function ResourceList({ resources, showMoreLink = true }) {
+export function StaticResourceList({ resources, showMoreLink = true, locale }) {
   return (
     <section className="ai-tools-section">
       <div className="flex justify-between items-center mb-8">
-        <h2 className="text-3xl font-serif font-semibold tracking-wide ghibli-title">吉卜力风格AI生成工具</h2>
+        <h2 className="text-3xl font-serif font-semibold tracking-wide ghibli-title">
+          {locale === 'zh' ? '吉卜力风格AI生成工具' : 'Ghibli Style AI Generation Tools'}
+        </h2>
         {showMoreLink && (
-          <Link href="/resources" className="text-primary hover:text-primary/80 transition-colors duration-300 ghibli-nav-link">
-            更多AI工具 →
+          <Link href={`/${locale}/resources`} className="text-primary hover:text-primary/80 transition-colors duration-300 ghibli-nav-link">
+            {locale === 'zh' ? '更多AI工具 →' : 'More AI Tools →'}
           </Link>
         )}
       </div>
@@ -33,9 +35,7 @@ export default function ResourceList({ resources, showMoreLink = true }) {
               >
                 {resource.icon && (
                   <div className="w-6 h-6 relative">
-                    <div className="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center">
-                      <span className="text-xs text-primary">{resource.name.charAt(0)}</span>
-                    </div>
+                    <div className="w-6 h-6 bg-primary/10 rounded-full"></div>
                   </div>
                 )}
                 <CardTitle className="text-xl font-serif">{resource.name}</CardTitle>

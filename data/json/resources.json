@@ -1,37 +1,30 @@
 [
   {
-    "name": "Next.js",
-    "description": "The React Framework for the Web",
-    "url": "https://nextjs.org/"
+    "name": "ChatIMG AI",
+    "description": "AI图像生成工具，支持吉卜力风格创作",
+    "url": "https://chatimg.ai/zh",
+    "icon": "https://chatimg.ai/favicon.ico",
+    "category": "tools"
   },
   {
-    "name": "Tailwind CSS",
-    "description": "A utility-first CSS framework",
-    "url": "https://tailwindcss.com/"
+    "name": "Ghibli Diffusion",
+    "description": "专为吉卜力风格优化的AI模型",
+    "url": "https://getimg.ai/models/ghibli-diffusion",
+    "icon": "https://getimg.ai/favicon.ico",
+    "category": "models"
   },
   {
-    "name": "Shadcn/ui",
-    "description": "Re-usable components built with Radix UI and Tailwind CSS",
-    "url": "https://ui.shadcn.com/"
+    "name": "Ghibli GPT",
+    "description": "吉卜力风格的AI图像生成平台",
+    "url": "https://www.ghibli-gpt.com/",
+    "icon": "https://www.ghibli-gpt.com/favicon.ico",
+    "category": "tools"
   },
   {
-    "name": "Vercel",
-    "description": "Cloud platform for static sites and Serverless Functions",
-    "url": "https://vercel.com/"
-  },
-  {
-    "name": "Github.com",
-    "description": "The world's leading platform for version control and collaborative software development.",
-    "url": "https://github.com/"
-  },
-  {
-    "name": "Woy.ai",
-    "description": "AI Tools Directory",
-    "url": "https://woy.ai"
-  },
-  {
-    "name": "Music Player",
-    "description": "Online Music Player",
-    "url": "https://musicplayer-olive.vercel.app/"
+    "name": "Ghiblit AI",
+    "description": "专注于吉卜力风格的AI艺术生成工具",
+    "url": "https://ghiblit.ai/",
+    "icon": "https://ghiblit.ai/favicon.ico",
+    "category": "tools"
   }
 ]

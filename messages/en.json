@@ -1,27 +1,27 @@
 {
   "common": {
     "home": "Home",
-    "resources": "AI Resources",
-    "tutorials": "Tutorials",
+    "resources": "AI Tools",
+    "tutorials": "Inspiration",
     "login": "Login",
     "logout": "Logout",
     "admin": "Admin",
-    "about": "About GhibliHub",
-    "aboutText": "GhibliHub is your ultimate resource center for creating Studio Ghibli inspired AI art. Discover curated prompts, models, and tutorials to generate magical worlds and characters in the beloved Miyazaki style.",
+    "about": "About GenerateGhibli",
+    "aboutText": "GenerateGhibli is your ultimate resource center for creating Studio Ghibli inspired AI art. Discover curated tools, models, and inspiration to generate magical worlds and characters in the beloved Miyazaki style.",
     "quickLinks": "Quick Links",
     "connect": "Connect",
     "allRightsReserved": "All rights reserved.",
-    "aiArtPrompts": "AI Art Prompts",
-    "modelGuides": "Model Guides",
-    "communityGallery": "Community Gallery",
+    "aiTools": "AI Generation Tools",
+    "modelGuides": "AI Models",
+    "inspirationGallery": "Inspiration Gallery",
     "searchPlaceholder": "Search for Ghibli art resources...",
     "featuredResources": "Featured Resources",
-    "latestTutorials": "Latest Tutorials",
+    "latestInspiration": "Creative Inspiration",
     "readMore": "Read More",
     "viewAll": "View All",
-    "promptsCollection": "Ghibli Style Prompts",
+    "toolsCollection": "Ghibli Style AI Tools",
     "modelsCollection": "AI Models for Ghibli Art",
-    "toolsCollection": "Ghibli Art Creation Tools",
-    "tutorialsCollection": "Step-by-Step Tutorials"
+    "inspirationCollection": "Ghibli Art Inspiration",
+    "galleryCollection": "Community Gallery"
   }
 }

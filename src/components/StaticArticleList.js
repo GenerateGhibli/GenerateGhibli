@@ -1,19 +1,23 @@
-// components/ArticleList.js
+// components/StaticArticleList.js
 import Link from 'next/link'
-import Image from 'next/image'
-import { useLocale } from 'next-intl'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 
-export default function ArticleList({ articles }) {
-  const locale = useLocale()
+export function StaticArticleList({ articles, locale }) {
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return date.toLocaleDateString(locale === 'zh' ? 'zh-CN' : 'en-US', options);
+  };
   
   return (
     <section>
       <div className="flex justify-between items-center mb-8">
-        <h2 className="text-3xl font-serif font-semibold tracking-wide ghibli-title">吉卜力灵感</h2>
+        <h2 className="text-3xl font-serif font-semibold tracking-wide ghibli-title">
+          {locale === 'zh' ? '吉卜力灵感' : 'Ghibli Inspiration'}
+        </h2>
         <Link href={`/${locale}/posts`} className="text-primary hover:text-primary/80 transition-colors duration-300 ghibli-nav-link">
-          更多灵感 →
+          {locale === 'zh' ? '更多灵感 →' : 'More Inspiration →'}
         </Link>
       </div>
       
@@ -22,12 +26,12 @@ export default function ArticleList({ articles }) {
           <Card key={article.id} className="overflow-hidden group hover:shadow-lg transition-all duration-300 flex flex-col">
             <div className="relative h-48 w-full overflow-hidden">
               {article.coverImage ? (
-                <Image
-                  src={article.coverImage}
-                  alt={article.title}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
+                <div 
+                  className="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
+                  style={{ backgroundImage: `url(${article.coverImage})` }}
+                  role="img"
+                  aria-label={article.title}
+                ></div>
               ) : (
                 <div className="w-full h-full bg-gradient-to-br from-ghibli-blue/30 to-ghibli-green/30 flex items-center justify-center">
                   <span className="text-4xl font-serif text-primary/50">吉卜力</span>
@@ -41,11 +45,7 @@ export default function ArticleList({ articles }) {
                 {article.title}
               </CardTitle>
               <CardDescription className="text-sm">
-                {new Date(article.date).toLocaleDateString(locale === 'zh' ? 'zh-CN' : 'en-US', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric'
-                })}
+                {formatDate(article.date)}
               </CardDescription>
             </CardHeader>
             
