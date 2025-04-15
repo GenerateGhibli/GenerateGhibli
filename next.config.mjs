@@ -1,4 +1,10 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {};
+import createNextIntlPlugin from 'next-intl/plugin';
 
-export default nextConfig;
+const withNextIntl = createNextIntlPlugin('./src/i18n/request.js');
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  // 其他配置项
+};
+
+export default withNextIntl(nextConfig);

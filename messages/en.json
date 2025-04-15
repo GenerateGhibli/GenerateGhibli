@@ -1,0 +1,27 @@
+{
+  "common": {
+    "home": "Home",
+    "resources": "AI Resources",
+    "tutorials": "Tutorials",
+    "login": "Login",
+    "logout": "Logout",
+    "admin": "Admin",
+    "about": "About GhibliHub",
+    "aboutText": "GhibliHub is your ultimate resource center for creating Studio Ghibli inspired AI art. Discover curated prompts, models, and tutorials to generate magical worlds and characters in the beloved Miyazaki style.",
+    "quickLinks": "Quick Links",
+    "connect": "Connect",
+    "allRightsReserved": "All rights reserved.",
+    "aiArtPrompts": "AI Art Prompts",
+    "modelGuides": "Model Guides",
+    "communityGallery": "Community Gallery",
+    "searchPlaceholder": "Search for Ghibli art resources...",
+    "featuredResources": "Featured Resources",
+    "latestTutorials": "Latest Tutorials",
+    "readMore": "Read More",
+    "viewAll": "View All",
+    "promptsCollection": "Ghibli Style Prompts",
+    "modelsCollection": "AI Models for Ghibli Art",
+    "toolsCollection": "Ghibli Art Creation Tools",
+    "tutorialsCollection": "Step-by-Step Tutorials"
+  }
+}

@@ -1,13 +1,13 @@
 // components/Layout.js
-import { Navigation } from './Navigation'
-import { Footer } from '@/components/Footer'
+import { StaticNavigation } from './StaticNavigation'
+import { GhibliFooter } from './GhibliFooter'
 
-export function Layout({ children }) {
+export function Layout({ children, locale }) {
   return (
     <div className="min-h-screen bg-background font-sans antialiased">
-      <Navigation />
-      <main className="flex-1">{children}</main>
-      <Footer />
+      <StaticNavigation locale={locale} />
+      <main className="flex-1 pt-6">{children}</main>
+      <GhibliFooter locale={locale} />
     </div>
   )
 }

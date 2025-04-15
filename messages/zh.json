@@ -1,0 +1,27 @@
+{
+  "common": {
+    "home": "首页",
+    "resources": "AI资源",
+    "tutorials": "教程指南",
+    "login": "登录",
+    "logout": "退出",
+    "admin": "管理",
+    "about": "关于GhibliHub",
+    "aboutText": "GhibliHub是您创建吉卜力工作室风格AI艺术的终极资源中心。探索精选提示词、模型和教程，以宫崎骏标志性风格生成魔幻世界和角色。",
+    "quickLinks": "快速链接",
+    "connect": "联系我们",
+    "allRightsReserved": "版权所有。",
+    "aiArtPrompts": "AI艺术提示词",
+    "modelGuides": "模型指南",
+    "communityGallery": "社区作品",
+    "searchPlaceholder": "搜索吉卜力艺术资源...",
+    "featuredResources": "精选资源",
+    "latestTutorials": "最新教程",
+    "readMore": "阅读更多",
+    "viewAll": "查看全部",
+    "promptsCollection": "吉卜力风格提示词",
+    "modelsCollection": "吉卜力艺术AI模型",
+    "toolsCollection": "吉卜力艺术创作工具",
+    "tutorialsCollection": "步骤详解教程"
+  }
+}
