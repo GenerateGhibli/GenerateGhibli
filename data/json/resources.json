@@ -26,5 +26,19 @@
     "url": "https://ghiblit.ai/",
     "icon": "https://ghiblit.ai/favicon.ico",
     "category": "tools"
+  },
+  {
+    "name": "Miyazaki Prompt Guide",
+    "description": "宫崎骏风格AI提示词指南",
+    "url": "https://prompthero.com/miyazaki-prompt-guide",
+    "icon": "https://prompthero.com/favicon.ico",
+    "category": "inspiration"
+  },
+  {
+    "name": "Ghibli Landscapes",
+    "description": "吉卜力风格自然景观AI生成参考",
+    "url": "https://ghibli-landscapes.com/",
+    "icon": "https://ghibli-landscapes.com/favicon.ico",
+    "category": "inspiration"
   }
 ]

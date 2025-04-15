@@ -26,6 +26,7 @@ export function getSortedPostsData() {
       title: matterResult.data.title,
       description: matterResult.data.description,
       date: matterResult.data.date,
+      coverImage: matterResult.data.coverImage,
     }
   })
   // Sort posts by date
@@ -58,6 +59,7 @@ export async function getPostData(slug) {
     title: matterResult.data.title,
     description: matterResult.data.description,
     date: matterResult.data.date,
+    coverImage: matterResult.data.coverImage,
     // ... any other fields you want to include
   };
 }

@@ -61,9 +61,9 @@ export default function Home({ params }: { params: { locale: string } }) {
         subtitle: '吉卜力风格AI图像生成资源导航',
         description: '探索创建宫崎骏和吉卜力工作室风格艺术的完整资源库。我们精心收集了最佳AI工具、模型和灵感，帮助您轻松生成充满魔法的梦幻世界、自然风光和令人难忘的角色。无论您是AI艺术爱好者还是吉卜力迷，这里都能找到适合您的资源。',
         exploreButton: '探索资源库',
-        learnMore: '查看灵感',
+        learnMore: '浏览文章',
         resourcesTitle: '精选资源',
-        articlesTitle: '创作灵感'
+        articlesTitle: '创作文章'
       }
     }
     return {
@@ -71,9 +71,9 @@ export default function Home({ params }: { params: { locale: string } }) {
       subtitle: 'Studio Ghibli Style AI Art Generation Resources',
       description: 'Explore a comprehensive collection of resources for creating Hayao Miyazaki and Studio Ghibli style art with AI. Discover curated tools, models, and inspiration to generate magical landscapes, whimsical characters, and enchanted worlds inspired by the beloved animation studio.',
       exploreButton: 'Explore Resources',
-      learnMore: 'View Inspiration',
+      learnMore: 'Browse Articles',
       resourcesTitle: 'Featured Resources',
-      articlesTitle: 'Creative Inspiration'
+      articlesTitle: 'Creative Articles'
     }
   }
   

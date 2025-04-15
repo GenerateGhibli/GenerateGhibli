@@ -2,6 +2,7 @@
 title: '吉卜力风格AI艺术创作完全指南'
 description: '学习如何使用AI工具创建宫崎骏和吉卜力工作室风格的魔幻世界和角色。本指南涵盖了最佳实践、提示词技巧和推荐模型。'
 date: '2023-12-15'
+coverImage: '/images/posts/ghibli-style-art.jpg'
 ---
 
 # 吉卜力风格AI艺术创作完全指南

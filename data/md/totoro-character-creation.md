@@ -2,6 +2,7 @@
 title: '如何用AI创建龙猫(Totoro)风格角色'
 description: '学习使用AI图像生成工具创建龙猫风格的角色和场景。本教程提供详细的提示词和技巧，帮助您创建可爱的吉卜力风格生物。'
 date: '2024-01-20'
+coverImage: '/images/posts/elon-musk-smoking-ghibli.jpg'
 ---
 
 # 如何用AI创建龙猫(Totoro)风格角色

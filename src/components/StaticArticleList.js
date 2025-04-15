@@ -56,7 +56,7 @@ export function StaticArticleList({ articles, locale }) {
             <CardFooter>
               <Link href={`/${locale}/posts/${article.id}`} className="w-full">
                 <Button variant="outline" className="w-full ghibli-button bg-transparent border-primary text-primary hover:bg-primary/10">
-                  {locale === 'zh' ? '查看灵感' : 'View Inspiration'}
+                  {locale === 'zh' ? '阅读全文' : 'Read More'}
                 </Button>
               </Link>
             </CardFooter>
