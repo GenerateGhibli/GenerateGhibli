@@ -1,8 +1,10 @@
+import React from 'react';
 import { NextIntlClientProvider } from 'next-intl';
-import AdminClient from './AdminClient';
 import { getMessages } from '@/i18n/getMessages';
+import AdminClient from '@/app/[locale]/admin/AdminClient';
 
-export default async function AdminPage({ params: { locale } }: { params: { locale: string } }) {
+export default async function AdminPage() {
+  const locale = 'zh';
   const messages = await getMessages(locale);
   
   return (
@@ -10,4 +12,4 @@ export default async function AdminPage({ params: { locale } }: { params: { loca
       <AdminClient locale={locale} />
     </NextIntlClientProvider>
   );
-}
+} 

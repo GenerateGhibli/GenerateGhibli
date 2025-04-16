@@ -4,7 +4,7 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.js');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // 其他配置项
+  // 添加其他必要的配置
 };
 
 export default withNextIntl(nextConfig);

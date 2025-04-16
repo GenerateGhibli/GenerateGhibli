@@ -23,5 +23,11 @@
     "modelsCollection": "AI Models for Ghibli Art",
     "inspirationCollection": "Ghibli Art Inspiration",
     "galleryCollection": "Community Gallery"
+  },
+  "admin": {
+    "dashboard": "Admin Dashboard",
+    "createPost": "Create Post",
+    "manageResources": "Manage Resources",
+    "backToDashboard": "Back to Dashboard"
   }
 }

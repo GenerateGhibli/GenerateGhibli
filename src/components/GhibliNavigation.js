@@ -16,11 +16,14 @@ export function GhibliNavigation() {
   const [isLoading, setIsLoading] = useState(true)
   const t = useTranslations('common')
   
-  // 使用翻译的导航项
+  // 获取当前语言
+  const locale = usePathname().split('/')[1];
+  
+  // 使用翻译的导航项，并添加语言前缀
   const navItems = [
-    { path: '/', label: t('home') },
-    { path: '/resources', label: t('resources') },
-    { path: '/posts', label: t('tutorials') },
+    { path: `/${locale}`, label: t('home') },
+    { path: `/${locale}/resources`, label: t('resources') },
+    { path: `/${locale}/posts`, label: t('tutorials') },
   ]
 
   useEffect(() => {
@@ -50,7 +53,7 @@ export function GhibliNavigation() {
     try {
       await fetch('/api/logout', { method: 'POST' });
       setIsLoggedIn(false);
-      router.push('/');
+      router.push(`/${locale}`);
     } catch (error) {
       console.error('Failed to logout:', error);
     }
@@ -60,7 +63,7 @@ export function GhibliNavigation() {
     <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-sm">
       <div className="container flex h-20 items-center justify-between">
         <div className="flex gap-6 md:gap-10">
-          <Link href="/" className="flex items-center space-x-2 group">
+          <Link href={`/${locale}`} className="flex items-center space-x-2 group">
             <div className="relative w-10 h-10 bg-ghibli-blue rounded-full overflow-hidden shadow-md group-hover:animate-float transition-all duration-300">
               {/* 修复绝对定位问题，将absolute改为relative并限制在父容器内 */}
               <div className="relative w-full h-full bg-gradient-to-br from-ghibli-blue to-ghibli-green opacity-80"></div>
@@ -97,7 +100,7 @@ export function GhibliNavigation() {
           {!isLoading && (
             isLoggedIn ? (
               <>
-                <Link href="/admin">
+                <Link href={`/${locale}/admin`}>
                   <Button variant="ghost" className="ghibli-button bg-secondary text-secondary-foreground hover:bg-secondary/90">
                     {t('admin')}
                   </Button>
@@ -107,7 +110,7 @@ export function GhibliNavigation() {
                 </Button>
               </>
             ) : (
-              <Link href="/login">
+              <Link href={`/${locale}/login`}>
                 <Button className="ghibli-button">
                   {t('login')}
                 </Button>

@@ -1,13 +1,13 @@
 import { NextIntlClientProvider } from 'next-intl';
-import AdminClient from './AdminClient';
 import { getMessages } from '@/i18n/getMessages';
+import ResourcesClient from './ResourcesClient';
 
-export default async function AdminPage({ params: { locale } }: { params: { locale: string } }) {
+export default async function ResourcesPage({ params: { locale } }: { params: { locale: string } }) {
   const messages = await getMessages(locale);
   
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
-      <AdminClient locale={locale} />
+      <ResourcesClient locale={locale} />
     </NextIntlClientProvider>
   );
 }

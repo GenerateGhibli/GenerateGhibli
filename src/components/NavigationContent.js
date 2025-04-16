@@ -16,11 +16,14 @@ export function NavigationContent() {
   const [isLoading, setIsLoading] = useState(true)
   const t = useTranslations('common')
   
-  // 使用翻译的导航项
+  // 获取当前语言
+  const locale = usePathname().split('/')[1];
+  
+  // 使用翻译的导航项，并添加语言前缀
   const navItems = [
-    { path: '/', label: t('home') },
-    { path: '/resources', label: t('resources') },
-    { path: '/posts', label: t('posts') },
+    { path: `/${locale}`, label: t('home') },
+    { path: `/${locale}/resources`, label: t('resources') },
+    { path: `/${locale}/posts`, label: t('posts') },
   ]
 
   useEffect(() => {
@@ -50,7 +53,7 @@ export function NavigationContent() {
     try {
       await fetch('/api/logout', { method: 'POST' });
       setIsLoggedIn(false);
-      router.push('/');
+      router.push(`/${locale}`);
     } catch (error) {
       console.error('Failed to logout:', error);
     }
@@ -60,7 +63,7 @@ export function NavigationContent() {
     <header className="sticky top-0 z-40 w-full border-b bg-background">
       <div className="container flex h-16 items-center justify-between">
         <div className="flex gap-6 md:gap-10">
-          <Link href="/" className="flex items-center space-x-2">
+          <Link href={`/${locale}`} className="flex items-center space-x-2">
             <span className="inline-block font-bold">GitBase</span>
           </Link>
           <nav className="hidden md:flex gap-6">
@@ -92,13 +95,13 @@ export function NavigationContent() {
           {!isLoading && (
             isLoggedIn ? (
               <>
-                <Link href="/admin">
+                <Link href={`/${locale}/admin`}>
                   <Button variant="ghost">{t('admin')}</Button>
                 </Link>
                 <Button onClick={handleLogout} variant="outline">{t('logout')}</Button>
               </>
             ) : (
-              <Link href="/login">
+              <Link href={`/${locale}/login`}>
                 <Button>{t('login')}</Button>
               </Link>
             )

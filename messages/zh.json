@@ -23,5 +23,11 @@
     "modelsCollection": "吉卜力艺术AI模型",
     "inspirationCollection": "吉卜力艺术灵感",
     "galleryCollection": "社区作品展示"
+  },
+  "admin": {
+    "dashboard": "管理控制台",
+    "createPost": "创建文章",
+    "manageResources": "管理资源",
+    "backToDashboard": "返回控制台"
   }
 }

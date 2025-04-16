@@ -1,13 +1,15 @@
+import React from 'react';
 import { NextIntlClientProvider } from 'next-intl';
-import AdminClient from './AdminClient';
 import { getMessages } from '@/i18n/getMessages';
+import ResourcesClient from '@/app/[locale]/admin/resources/ResourcesClient';
 
-export default async function AdminPage({ params: { locale } }: { params: { locale: string } }) {
+export default async function ResourcesPage() {
+  const locale = 'zh';
   const messages = await getMessages(locale);
   
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
-      <AdminClient locale={locale} />
+      <ResourcesClient locale={locale} />
     </NextIntlClientProvider>
   );
-}
+} 
