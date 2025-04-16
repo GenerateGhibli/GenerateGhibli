@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import { sign } from 'jsonwebtoken';
+import { SignJWT } from 'jose';
 
 export async function GET() {
   return new NextResponse(
@@ -113,11 +113,15 @@ export async function POST(request) {
     const accessPassword = process.env.ACCESS_PASSWORD || 'admin123';
     
     if (password === accessPassword) {
-      const token = sign(
-        { authorized: true },
-        process.env.JWT_SECRET || 'your-secret-key',
-        { expiresIn: '1d' }
-      );
+      // 创建密钥
+      const secret = new TextEncoder().encode(process.env.JWT_SECRET || 'your-secret-key');
+      
+      // 使用jose库创建JWT
+      const token = await new SignJWT({ authorized: true })
+        .setProtectedHeader({ alg: 'HS256' })
+        .setIssuedAt()
+        .setExpirationTime('1d')
+        .sign(secret);
       
       cookies().set('auth_token', token, {
         httpOnly: true,
