@@ -2,12 +2,6 @@
 
 [GenerateGhibli](https://generateghibli.org/) 是您的吉卜力风格AI图像生成资源导航站。发现精选的AI工具、模型和灵感，轻松创建宫崎骏和吉卜力工作室风格的魔幻世界和角色。
 
-![GenerateGhibli](https://toimg.xyz/file/5aa892c8e8385232fcdf3.png)
-
-## 部署在 Vercel
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FGenerateGhibli%2FGenerateGhibli&project-name=GenerateGhibli&repository-name=GenerateGhibli&external-id=https%3A%2F%2Fgithub.com%2FGenerateGhibli%2FGenerateGhibli%2Ftree%2Fmain)
-
 ## 功能特点
 
 - **全面的资源集合**：精选的吉卜力风格AI图像生成工具和模型
