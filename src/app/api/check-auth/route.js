@@ -5,8 +5,9 @@ import { jwtVerify } from 'jose';
 // 指定为Node.js运行时
 export const runtime = 'nodejs'; 
 
-// 硬编码默认值，避免linter错误
-const JWT_SECRET_DEFAULT = 'your_jwt_secret_key_for_development';
+// 从环境变量读取密钥，提供默认值
+// eslint-disable-next-line no-undef
+const JWT_SECRET_DEFAULT = process.env.JWT_SECRET || 'your_jwt_secret_key_for_development';
 
 export async function GET(request) {
   try {

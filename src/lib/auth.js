@@ -1,10 +1,11 @@
 import { SignJWT, jwtVerify } from 'jose';
 
-// 在Edge Runtime中使用的硬编码默认值
-// 注意：这些值将在服务器端API路由中被正确的环境变量覆盖
-const JWT_SECRET = 'your_jwt_secret_key_for_development';
+// 在Edge Runtime中使用的默认值
+// 注意：这些值应该被服务器端API路由中的环境变量覆盖
+// Edge Runtime可能无法直接访问process.env
+const JWT_SECRET = 'your_jwt_secret_key_for_development'; 
 const DOMAIN = 'localhost';
-const IS_DEV = true; // 假设开发环境
+const IS_DEV = true;
 
 export async function verifyToken(token) {
   try {
