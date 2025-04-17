@@ -1,6 +1,13 @@
+import React from 'react'
 import Link from 'next/link'
-import { Github } from 'lucide-react'
 import { Button } from "@/components/ui/button"
+import { 
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
+import { Globe } from 'lucide-react'
 
 export function StaticNavigation({ locale }) {
   // 根据当前语言选择导航项文本
@@ -57,35 +64,22 @@ export function StaticNavigation({ locale }) {
           </nav>
         </div>
         <div className="flex items-center gap-4">
-          <Link
-            href="https://github.com/qiayue/gitbase"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-muted-foreground hover:text-primary transition-colors duration-300"
-          >
-            <Github className="h-5 w-5" />
-            <span className="sr-only">GitHub</span>
-          </Link>
-          <div className="flex items-center gap-2">
-            <Link href="/en">
-              <Button
-                variant={locale === 'en' ? "default" : "outline"}
-                size="sm"
-                className={`w-10 rounded-full ${locale === 'en' ? 'shadow-md' : ''}`}
-              >
-                EN
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="sm" className="flex items-center gap-1">
+                <Globe className="h-4 w-4" />
+                <span>{locale.toUpperCase()}</span>
               </Button>
-            </Link>
-            <Link href="/zh">
-              <Button
-                variant={locale === 'zh' ? "default" : "outline"}
-                size="sm"
-                className={`w-10 rounded-full ${locale === 'zh' ? 'shadow-md' : ''}`}
-              >
-                ZH
-              </Button>
-            </Link>
-          </div>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem asChild className={locale === 'en' ? "font-medium bg-secondary" : ""}>
+                <Link href="/en">🇬🇧 English</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild className={locale === 'zh' ? "font-medium bg-secondary" : ""}>
+                <Link href="/zh">🇨🇳 中文</Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
           <Link href={`/${locale}/login`}>
             <Button className="ghibli-button">{navText.login}</Button>
           </Link>

@@ -1,8 +1,15 @@
 // components/StaticGhibliNavigation.js
+import React from 'react'
 import Link from 'next/link'
-import { Github } from 'lucide-react'
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
+import { 
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
+import { Globe } from 'lucide-react'
 
 export function StaticGhibliNavigation({ locale }) {
   // 使用翻译的导航项
@@ -36,35 +43,22 @@ export function StaticGhibliNavigation({ locale }) {
           </nav>
         </div>
         <div className="flex items-center gap-4">
-          <Link
-            href="https://github.com/GenerateGhibli/GenerateGhibli"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-muted-foreground hover:text-primary transition-colors duration-300"
-          >
-            <Github className="h-5 w-5" />
-            <span className="sr-only">GitHub</span>
-          </Link>
-          <div className="flex items-center gap-2">
-            <Link href="/en">
-              <Button
-                variant={locale === 'en' ? "default" : "outline"}
-                size="sm"
-                className="w-10"
-              >
-                EN
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="sm" className="flex items-center gap-1">
+                <Globe className="h-4 w-4" />
+                <span>{locale.toUpperCase()}</span>
               </Button>
-            </Link>
-            <Link href="/zh">
-              <Button
-                variant={locale === 'zh' ? "default" : "outline"}
-                size="sm"
-                className="w-10"
-              >
-                中文
-              </Button>
-            </Link>
-          </div>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem asChild className={locale === 'en' ? "font-medium bg-secondary" : ""}>
+                <Link href="/en">🇬🇧 English</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild className={locale === 'zh' ? "font-medium bg-secondary" : ""}>
+                <Link href="/zh">🇨🇳 中文</Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
     </header>

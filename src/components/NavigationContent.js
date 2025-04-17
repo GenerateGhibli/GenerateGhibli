@@ -1,9 +1,8 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { Github } from 'lucide-react'
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { useTranslations } from 'next-intl'
@@ -82,15 +81,6 @@ export function NavigationContent() {
           </nav>
         </div>
         <div className="flex items-center gap-4">
-          <Link
-            href="https://github.com/qiayue/gitbase"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-muted-foreground hover:text-foreground"
-          >
-            <Github className="h-5 w-5" />
-            <span className="sr-only">GitHub</span>
-          </Link>
           <LanguageSwitcher />
           {!isLoading && (
             isLoggedIn ? (

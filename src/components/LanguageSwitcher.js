@@ -1,9 +1,17 @@
 'use client'
 
+import React from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { useLocale } from 'next-intl'
 import { locales } from '@/i18n'
+import { 
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
+import { Globe } from 'lucide-react'
 
 export function LanguageSwitcher() {
   const pathname = usePathname()
@@ -26,19 +34,30 @@ export function LanguageSwitcher() {
     router.push(`/${locale}${path}`)
   }
 
+  const localeLabels = {
+    'en': '🇬🇧 English',
+    'zh': '🇨🇳 中文'
+  }
+
   return (
-    <div className="flex items-center gap-2">
-      {locales.map((locale) => (
-        <Button
-          key={locale}
-          variant={locale === currentLocale ? "default" : "outline"}
-          size="sm"
-          onClick={() => switchLanguage(locale)}
-          className="w-10"
-        >
-          {locale.toUpperCase()}
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" size="sm" className="flex items-center gap-1">
+          <Globe className="h-4 w-4" />
+          <span>{currentLocale.toUpperCase()}</span>
         </Button>
-      ))}
-    </div>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        {locales.map((locale) => (
+          <DropdownMenuItem
+            key={locale}
+            onClick={() => switchLanguage(locale)}
+            className={locale === currentLocale ? "font-medium bg-secondary" : ""}
+          >
+            {localeLabels[locale]}
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }
