@@ -1,5 +1,4 @@
-import { NextIntlClientProvider } from 'next-intl';
-import { getMessages } from '@/i18n/getMessages';
+import React from 'react';
 import LoginClient from './LoginClient';
 import { Metadata } from 'next';
 
@@ -8,12 +7,10 @@ export const metadata: Metadata = {
   description: '登录到GenerateGhibli管理面板',
 };
 
-export default async function LoginPage({ params: { locale } }: { params: { locale: string } }) {
-  const messages = await getMessages(locale);
-  
+export default function LoginPage({ params }: { params: { locale: string } }) {
   return (
-    <NextIntlClientProvider locale={locale} messages={messages}>
-      <LoginClient locale={locale} />
-    </NextIntlClientProvider>
+    <div className="container mx-auto py-8">
+      <LoginClient locale={params.locale} />
+    </div>
   );
 }

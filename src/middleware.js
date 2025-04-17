@@ -5,29 +5,45 @@ export async function middleware(request) {
   // 获取请求路径名
   const pathname = request.nextUrl.pathname;
   
+  // 特殊处理不带语言前缀的admin和login路径
+  if (pathname === '/admin' || pathname === '/login' || pathname.startsWith('/admin/') || pathname.startsWith('/login/')) {
+    // 对于管理员路径，检查认证
+    if (pathname === '/admin' || pathname.startsWith('/admin/')) {
+      const token = request.cookies.get('auth_token')?.value;
+      
+      // 如果没有token，重定向到默认语言的登录页面
+      if (!token) {
+        return NextResponse.redirect(new URL(`/${defaultLocale}/login`, request.url));
+      }
+    }
+    
+    // 将不带语言前缀的路径重定向到默认语言
+    const newUrl = new URL(`/${defaultLocale}${pathname}`, request.url);
+    newUrl.search = request.nextUrl.search;
+    return NextResponse.redirect(newUrl);
+  }
+  
   // 检查路径是否已经包含语言前缀
   const pathnameHasLocale = locales.some(
     locale => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   );
   
-  // 如果路径已经包含语言前缀，不做任何处理
+  // 如果路径已经包含语言前缀
   if (pathnameHasLocale) {
+    // 获取当前语言
+    const locale = pathname.split('/')[1];
+    
     // 检查管理员路由的认证
     if (pathname.includes('/admin')) {
       const token = request.cookies.get('auth_token')?.value;
       
       // 如果没有token，直接重定向到登录页面
       if (!token) {
-        // 获取当前语言
-        const locale = pathname.split('/')[1];
-        // 重定向到登录页面，保留语言设置
         return NextResponse.redirect(new URL(`/${locale}/login`, request.url));
       }
-      
-      // 如果有token，我们接受它并在客户端进行更详细的验证
-      // 这是为了避免Edge Runtime中的限制
-      // 真正的验证将在客户端组件中进行
     }
+    
+    // 不做其他处理，允许用户继续访问
     return NextResponse.next();
   }
   

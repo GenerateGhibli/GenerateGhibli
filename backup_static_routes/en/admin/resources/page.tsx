@@ -1,7 +1,7 @@
 import React from 'react';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from '@/i18n/getMessages';
-import ResourcesClient from '@/app/[locale]/admin/resources/ResourcesClient';
+import ResourcesClient from '../../../[locale]/admin/resources/ResourcesClient';
 
 export default async function ResourcesPage() {
   const locale = 'en';

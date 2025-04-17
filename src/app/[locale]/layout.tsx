@@ -3,7 +3,8 @@ import { Inter } from 'next/font/google'
 import { Layout } from '@/components/Layout'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { locales } from '@/i18n'
+import { locales, defaultLocale } from '@/i18n'
+import React from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -32,6 +33,21 @@ export default async function RootLayout({ children, params: { locale } }: RootL
     <html lang={locale}>
       <head>
         <link rel="canonical" href={`https://generateghibli.org/${locale}`} />
+        {/* 添加hreflang标签用于SEO多语言支持 */}
+        {locales.map((hrefLocale) => (
+          <link
+            key={hrefLocale}
+            rel="alternate"
+            hrefLang={hrefLocale}
+            href={`https://generateghibli.org/${hrefLocale}`}
+          />
+        ))}
+        {/* 添加一个x-default hreflang标签作为默认语言 */}
+        <link
+          rel="alternate"
+          hrefLang="x-default"
+          href={`https://generateghibli.org/${defaultLocale}`}
+        />
         <meta name="robots" content="index, follow" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#ffffff" />

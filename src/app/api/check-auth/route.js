@@ -5,13 +5,14 @@ import { jwtVerify } from 'jose';
 // 指定为Node.js运行时
 export const runtime = 'nodejs'; 
 
-// 从环境变量读取密钥，提供默认值
-// eslint-disable-next-line no-undef
-const JWT_SECRET_DEFAULT = process.env.JWT_SECRET || 'your_jwt_secret_key_for_development';
+// 从环境变量读取密钥，提供与login API相同的默认值
+/* eslint-disable no-undef */
+const JWT_SECRET_DEFAULT = process.env.JWT_SECRET || 'default_jwt_secret_for_development';
+/* eslint-enable no-undef */
 
 export async function GET(request) {
   try {
-    const token = request.cookies.get('auth_token')?.value;
+    const token = request.cookies.get('auth-token')?.value;
     
     if (!token) {
       console.log('No auth token found in cookies');
@@ -22,7 +23,7 @@ export async function GET(request) {
     
     // 尝试解码令牌（不验证）以查看内容
     try {
-      // 使用硬编码值，避免linter错误
+      // 使用相同密钥
       const secret = new TextEncoder().encode(JWT_SECRET_DEFAULT);
       
       const { payload } = await jwtVerify(token, secret, { complete: true });

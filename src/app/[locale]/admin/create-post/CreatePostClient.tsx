@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { useTranslations } from 'next-intl'
+// import { useTranslations } from 'next-intl'
+import React from 'react'
 
 interface CreatePostClientProps {
   locale: string;
@@ -10,9 +11,27 @@ interface CreatePostClientProps {
 
 export default function CreatePostClient({ locale }: CreatePostClientProps) {
   const router = useRouter()
-  const t = useTranslations('admin')
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
+
+  // 使用本地翻译函数而不是useTranslations
+  const t = (key: string) => {
+    const translations: Record<string, Record<string, string>> = {
+      en: {
+        dashboard: "Admin Dashboard",
+        createPost: "Create Post",
+        manageResources: "Manage Resources",
+        backToDashboard: "Back to Dashboard"
+      },
+      zh: {
+        dashboard: "管理控制台",
+        createPost: "创建文章",
+        manageResources: "管理资源",
+        backToDashboard: "返回控制台"
+      }
+    }
+    return (translations[locale] && translations[locale][key]) || key
+  }
 
   useEffect(() => {
     const checkAuth = async () => {

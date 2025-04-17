@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useTranslations } from 'next-intl'
+// import { useTranslations } from 'next-intl'
 import { Button } from '@/components/ui/button'
 import React from 'react'
 
@@ -11,14 +11,24 @@ interface LoginClientProps {
 }
 
 export default function LoginClient({ locale }: LoginClientProps) {
+  console.log("LoginClient rendering:", { locale })
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
-  const t = useTranslations('common')
+  
+  // 尝试不使用useTranslations
+  // const t = useTranslations('common')
+  const t = (key: string) => {
+    const translations: Record<string, string> = {
+      login: "Login"
+    }
+    return translations[key] || key
+  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    console.log("Login form submitted")
     setIsLoading(true)
     setError('')
     
@@ -32,11 +42,27 @@ export default function LoginClient({ locale }: LoginClientProps) {
       })
       
       const data = await response.json()
+      console.log("Login response:", data)
       
       if (response.ok) {
-        router.push(`/${locale}/admin`)
+        // 使用API返回的重定向URL，如果存在的话，并且检查是否是正确的前端路径
+        if (data.redirectTo && data.redirectTo.startsWith('/')) {
+          // 确保不会跳转到API路径
+          if (data.redirectTo.startsWith('/api/')) {
+            console.error("Received incorrect API redirect path:", data.redirectTo);
+            console.warn("Using fallback path instead");
+            router.push(`/${locale}/admin`);
+          } else {
+            console.log("Redirecting to:", data.redirectTo);
+            router.push(data.redirectTo);
+          }
+        } else {
+          // 否则回退到默认路径
+          console.log("No valid redirect path received, using default");
+          router.push(`/${locale}/admin`);
+        }
       } else {
-        setError(data.message || 'Login failed')
+        setError(data.message || 'Login failed');
       }
     } catch (error) {
       setError('An error occurred during login')
@@ -45,6 +71,8 @@ export default function LoginClient({ locale }: LoginClientProps) {
       setIsLoading(false)
     }
   }
+  
+  console.log("LoginClient rendering form")
   
   return (
     <div className="container py-16 flex justify-center">

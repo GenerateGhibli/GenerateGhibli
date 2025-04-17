@@ -1,13 +1,16 @@
-import { NextIntlClientProvider } from 'next-intl';
+import React from 'react';
 import AdminClient from './AdminClient';
-import { getMessages } from '@/i18n/getMessages';
+import { Metadata } from 'next';
 
-export default async function AdminPage({ params: { locale } }: { params: { locale: string } }) {
-  const messages = await getMessages(locale);
-  
+export const metadata: Metadata = {
+  title: 'Admin Dashboard | GenerateGhibli',
+  description: 'GenerateGhibli后台管理系统',
+};
+
+export default function AdminPage({ params }: { params: { locale: string } }) {
   return (
-    <NextIntlClientProvider locale={locale} messages={messages}>
-      <AdminClient locale={locale} />
-    </NextIntlClientProvider>
+    <div className="container mx-auto py-8">
+      <AdminClient locale={params.locale} />
+    </div>
   );
 }

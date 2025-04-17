@@ -1,13 +1,16 @@
-import { NextIntlClientProvider } from 'next-intl';
-import { getMessages } from '@/i18n/getMessages';
+import React from 'react';
 import ResourcesClient from './ResourcesClient';
+import { Metadata } from 'next';
 
-export default async function ResourcesPage({ params: { locale } }: { params: { locale: string } }) {
-  const messages = await getMessages(locale);
-  
+export const metadata: Metadata = {
+  title: 'Manage Resources | GenerateGhibli',
+  description: '管理网站资源',
+};
+
+export default function ResourcesPage({ params }: { params: { locale: string } }) {
   return (
-    <NextIntlClientProvider locale={locale} messages={messages}>
-      <ResourcesClient locale={locale} />
-    </NextIntlClientProvider>
+    <div className="container mx-auto py-8">
+      <ResourcesClient locale={params.locale} />
+    </div>
   );
 }
