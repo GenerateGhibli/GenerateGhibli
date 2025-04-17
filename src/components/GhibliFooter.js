@@ -78,16 +78,6 @@ export function GhibliFooter({ locale }) {
                   {t('posts')}
                 </Link>
               </li>
-              <li>
-                <Link href={`/${locale}/resources/tools`} className="text-base text-muted-foreground hover:text-primary transition-colors duration-300 ghibli-nav-link inline-block">
-                  {t('aiTools')}
-                </Link>
-              </li>
-              <li>
-                <Link href={`/${locale}/resources/models`} className="text-base text-muted-foreground hover:text-primary transition-colors duration-300 ghibli-nav-link inline-block">
-                  {t('modelGuides')}
-                </Link>
-              </li>
             </ul>
           </div>
           
