@@ -1,26 +1,35 @@
-import fs from 'fs'
-import path from 'path'
 import matter from 'gray-matter'
 import { remark } from 'remark'
 import html from 'remark-html'
 
-const postsDirectory = path.join(process.cwd(), 'data', 'md')
+// 静态导入文章内容
+import totoroContent from '../../data/md/totoro-character-creation.md?raw'
+import ghibliStyleContent from '../../data/md/ghibli-style-ai-art-guide.md?raw'
+import ghibliMemeContent from '../../data/md/ghibli-meme-art-guide.md?raw'
 
+// 预定义的文章列表
+const POSTS = [
+  {
+    id: 'totoro-character-creation',
+    fileContent: totoroContent,
+  },
+  {
+    id: 'ghibli-style-ai-art-guide',
+    fileContent: ghibliStyleContent,
+  },
+  {
+    id: 'ghibli-meme-art-guide',
+    fileContent: ghibliMemeContent,
+  }
+]
+
+// 替代文件系统的函数
 export function getSortedPostsData() {
-  // Get file names under /data/md
-  const fileNames = fs.readdirSync(postsDirectory)
-  const allPostsData = fileNames.map((fileName) => {
-    // Remove ".md" from file name to get id
-    const id = fileName.replace(/\.md$/, '')
+  const allPostsData = POSTS.map(({ id, fileContent }) => {
+    // 使用gray-matter解析文章元数据
+    const matterResult = matter(fileContent)
 
-    // Read markdown file as string
-    const fullPath = path.join(postsDirectory, fileName)
-    const fileContents = fs.readFileSync(fullPath, 'utf8')
-
-    // Use gray-matter to parse the post metadata section
-    const matterResult = matter(fileContents)
-
-    // Combine the data with the id
+    // 组合数据
     return {
       id,
       title: matterResult.data.title,
@@ -29,7 +38,8 @@ export function getSortedPostsData() {
       coverImage: matterResult.data.coverImage,
     }
   })
-  // Sort posts by date
+  
+  // 按日期排序
   return allPostsData.sort((a, b) => {
     if (a.date < b.date) {
       return 1
@@ -40,19 +50,23 @@ export function getSortedPostsData() {
 }
 
 export async function getPostData(slug) {
-  const fullPath = path.join(postsDirectory, `${slug}.md`);
-  const fileContents = fs.readFileSync(fullPath, 'utf8');
+  // 查找对应ID的文章
+  const post = POSTS.find(post => post.id === slug)
+  
+  if (!post) {
+    throw new Error(`Post with slug "${slug}" not found`)
+  }
+  
+  // 使用gray-matter解析文章元数据
+  const matterResult = matter(post.fileContent)
 
-  // Use gray-matter to parse the post metadata section
-  const matterResult = matter(fileContents);
-
-  // Use remark to convert markdown into HTML string
+  // 使用remark将markdown转换为HTML
   const processedContent = await remark()
     .use(html)
-    .process(matterResult.content);
-  const contentHtml = processedContent.toString();
+    .process(matterResult.content)
+  const contentHtml = processedContent.toString()
 
-  // Combine the data with the id and contentHtml
+  // 组合数据
   return {
     slug,
     contentHtml,
@@ -60,27 +74,10 @@ export async function getPostData(slug) {
     description: matterResult.data.description,
     date: matterResult.data.date,
     coverImage: matterResult.data.coverImage,
-    // ... any other fields you want to include
-  };
+  }
 }
 
 export async function getPostData2(id) {
-  const fullPath = path.join(postsDirectory, `${id}.md`)
-  const fileContents = fs.readFileSync(fullPath, 'utf8')
-
-  // Use gray-matter to parse the post metadata section
-  const matterResult = matter(fileContents)
-
-  // Use remark to convert markdown into HTML string
-  const processedContent = await remark()
-    .use(html)
-    .process(matterResult.content)
-  const contentHtml = processedContent.toString()
-
-  // Combine the data with the id and contentHtml
-  return {
-    id,
-    contentHtml,
-    ...matterResult.data
-  }
+  // 复用相同的逻辑
+  return getPostData(id)
 }

@@ -1,10 +1,12 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
 import { Octokit } from '@octokit/rest';
+import { Buffer } from 'buffer';
+
+// 静态导入资源数据
+import resourcesData from '../../../../data/json/resources.json';
 
 /* eslint-disable no-undef */
-export const runtime = 'nodejs'; // 指定为Node.js运行时
+export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic'; // 强制动态渲染此路由
 
 const octokit = new Octokit({
@@ -14,7 +16,6 @@ const octokit = new Octokit({
 const owner = process.env.GITHUB_OWNER;
 const repo = process.env.GITHUB_REPO;
 const githubPath = 'data/json/resources.json';
-const localPath = path.join(process.cwd(), 'data', 'json', 'resources.json');
 /* eslint-enable no-undef */
 
 async function getResourcesFromGitHub() {
@@ -25,6 +26,7 @@ async function getResourcesFromGitHub() {
       path: githubPath,
     });
 
+    // 使用Buffer，因为我们在nodejs环境中
     const content = Buffer.from(data.content, 'base64').toString('utf8');
     return JSON.parse(content);
   } catch (error) {
@@ -33,8 +35,9 @@ async function getResourcesFromGitHub() {
   }
 }
 
+// 使用静态导入的数据，不再从文件系统读取
 function getLocalResources() {
-  return JSON.parse(fs.readFileSync(localPath, 'utf8'));
+  return resourcesData;
 }
 
 export async function GET(req) {
@@ -46,10 +49,11 @@ export async function GET(req) {
       const resources = await getResourcesFromGitHub();
       return NextResponse.json(resources);
     } catch (error) {
+      console.error('GitHub fetch error:', error);
       return NextResponse.json({ error: 'Failed to fetch resources from GitHub' }, { status: 500 });
     }
   } else {
-    // Default to local file for homepage
+    // 使用静态导入的数据
     const resources = getLocalResources();
     return NextResponse.json(resources);
   }
@@ -65,17 +69,20 @@ export async function POST(req) {
       path: githubPath,
     });
 
+    // 使用Buffer，因为我们在nodejs环境中
+    const content = Buffer.from(JSON.stringify(updatedResources, null, 2)).toString('base64');
+
     await octokit.repos.createOrUpdateFileContents({
       owner,
       repo,
       path: githubPath,
       message: 'Update resources',
-      content: Buffer.from(JSON.stringify(updatedResources, null, 2)).toString('base64'),
+      content,
       sha: currentFile.sha,
     });
 
-    // Update local file as well
-    //fs.writeFileSync(localPath, JSON.stringify(updatedResources, null, 2));
+    // 不再更新本地文件
+    // 在Cloudflare环境中，更新应该通过GitHub来进行
 
     return NextResponse.json(updatedResources);
   } catch (error) {

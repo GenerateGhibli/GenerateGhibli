@@ -1,11 +1,13 @@
-import fs from 'fs'
-import path from 'path'
+import React from 'react'
 import { getSortedPostsData } from '@/lib/posts'
 import { StaticResourceList } from '@/components/StaticResourceList'
 import { StaticArticleList } from '@/components/StaticArticleList'
 import { Metadata } from 'next'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+
+// 静态导入资源数据
+import resourcesData from '../../../data/json/resources.json'
 
 export const metadata: Metadata = {
   title: 'GenerateGhibli - 吉卜力风格AI图像生成资源导航 | Studio Ghibli Style AI Art Generator',
@@ -43,13 +45,8 @@ export const metadata: Metadata = {
 }
 
 export default function Home({ params }: { params: { locale: string } }) {
-  const resourcesPath = path.join(process.cwd(), 'data', 'json', 'resources.json')
-  let resources = []
-  try {
-    resources = JSON.parse(fs.readFileSync(resourcesPath, 'utf8'))
-  } catch (error) {
-    console.error('Error loading resources:', error)
-  }
+  // 使用静态导入的资源数据
+  const resources = resourcesData;
   
   const allPostsData = getSortedPostsData().slice(0, 6)
   

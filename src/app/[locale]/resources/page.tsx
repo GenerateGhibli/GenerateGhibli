@@ -1,7 +1,9 @@
-import fs from 'fs'
-import path from 'path'
+import React from 'react'
 import { Metadata } from 'next'
 import { StaticResourceList } from '@/components/StaticResourceList'
+
+// 静态导入资源数据
+import resourcesData from '../../../../data/json/resources.json'
 
 export const metadata: Metadata = {
   title: '吉卜力风格AI图像生成工具和资源 | GenerateGhibli',
@@ -10,13 +12,8 @@ export const metadata: Metadata = {
 }
 
 export default function Resources({ params }: { params: { locale: string } }) {
-  const resourcesPath = path.join(process.cwd(), 'data', 'json', 'resources.json')
-  let resources = []
-  try {
-    resources = JSON.parse(fs.readFileSync(resourcesPath, 'utf8'))
-  } catch (error) {
-    console.error('Error loading resources:', error)
-  }
+  // 使用静态导入的资源数据
+  const resources = resourcesData;
   
   // 根据当前语言选择文本
   const getText = () => {
