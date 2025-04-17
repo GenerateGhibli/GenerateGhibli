@@ -3,6 +3,10 @@ import fs from 'fs';
 import path from 'path';
 import { Octokit } from '@octokit/rest';
 
+/* eslint-disable no-undef */
+export const runtime = 'nodejs'; // 指定为Node.js运行时
+export const dynamic = 'force-dynamic'; // 强制动态渲染此路由
+
 const octokit = new Octokit({
   auth: process.env.GITHUB_TOKEN
 });
@@ -11,6 +15,7 @@ const owner = process.env.GITHUB_OWNER;
 const repo = process.env.GITHUB_REPO;
 const githubPath = 'data/json/resources.json';
 const localPath = path.join(process.cwd(), 'data', 'json', 'resources.json');
+/* eslint-enable no-undef */
 
 async function getResourcesFromGitHub() {
   try {

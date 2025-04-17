@@ -3,6 +3,7 @@ import { SignJWT } from 'jose';
 
 /* eslint-disable no-undef */
 export const runtime = 'nodejs'; // 指定为Node.js运行时以便使用环境变量
+export const dynamic = 'force-dynamic'; // 强制动态渲染此路由
 
 // 使用环境变量
 const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';

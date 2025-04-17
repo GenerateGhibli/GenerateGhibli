@@ -4,6 +4,8 @@ import { jwtVerify } from 'jose';
 
 // 指定为Node.js运行时
 export const runtime = 'nodejs'; 
+// 强制动态渲染此路由
+export const dynamic = 'force-dynamic';
 
 // 从环境变量读取密钥，提供与login API相同的默认值
 /* eslint-disable no-undef */
