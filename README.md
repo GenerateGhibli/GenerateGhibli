@@ -186,8 +186,7 @@ sequenceDiagram
 - Node.js (14版本或更高)
 - npm (随Node.js一起安装)
 - Git
-- GitHub账户
-- Vercel账户 (用于部署)
+- GitHub账
 
 ## 安装
 
