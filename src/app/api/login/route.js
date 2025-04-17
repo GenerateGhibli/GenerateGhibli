@@ -42,7 +42,7 @@ export async function POST(request) {
     });
     
     response.cookies.set({
-      name: 'auth-token',
+      name: 'auth_token',
       value: token,
       httpOnly: true,
       path: '/',

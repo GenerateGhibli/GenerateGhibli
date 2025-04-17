@@ -14,7 +14,7 @@ const JWT_SECRET_DEFAULT = process.env.JWT_SECRET || 'default_jwt_secret_for_dev
 
 export async function GET(request) {
   try {
-    const token = request.cookies.get('auth-token')?.value;
+    const token = request.cookies.get('auth_token')?.value;
     
     if (!token) {
       console.log('No auth token found in cookies');

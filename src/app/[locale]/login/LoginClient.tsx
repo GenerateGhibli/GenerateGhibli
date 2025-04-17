@@ -45,28 +45,14 @@ export default function LoginClient({ locale }: LoginClientProps) {
       console.log("Login response:", data)
       
       if (response.ok) {
-        // 使用API返回的重定向URL，如果存在的话，并且检查是否是正确的前端路径
-        if (data.redirectTo && data.redirectTo.startsWith('/')) {
-          // 确保不会跳转到API路径
-          if (data.redirectTo.startsWith('/api/')) {
-            console.error("Received incorrect API redirect path:", data.redirectTo);
-            console.warn("Using fallback path instead");
-            router.push(`/${locale}/admin`);
-          } else {
-            console.log("Redirecting to:", data.redirectTo);
-            router.push(data.redirectTo);
-          }
-        } else {
-          // 否则回退到默认路径
-          console.log("No valid redirect path received, using default");
-          router.push(`/${locale}/admin`);
-        }
+        // 登录成功后，直接跳转到管理页面
+        router.push(`/${locale}/admin`);
       } else {
         setError(data.message || 'Login failed');
       }
     } catch (error) {
-      setError('An error occurred during login')
       console.error('Login error:', error)
+      setError('Failed to login. Please try again.')
     } finally {
       setIsLoading(false)
     }
@@ -111,7 +97,7 @@ export default function LoginClient({ locale }: LoginClientProps) {
                 disabled={isLoading}
                 className="w-full ghibli-button text-base py-6"
               >
-                {isLoading ? 'Loading...' : t('login')}
+                {isLoading ? 'Logging in...' : t('login')}
               </Button>
             </form>
           </div>
