@@ -1,64 +1,55 @@
 // 导入翻译文件
-import enTranslations from "../../messages/en.json";
-import zhTranslations from "../../messages/zh.json";
+import enTranslations from '../../messages/en.json';
+import zhTranslations from '../../messages/zh.json';
 
-// 支持的语言列表
-export const SUPPORTED_LOCALES = ['en', 'zh'] as const;
-export type Locale = typeof SUPPORTED_LOCALES[number];
-export const DEFAULT_LOCALE: Locale = 'en';
+// 支持的语言
+export const supportedLocales = ['en', 'zh'] as const;
+export type SupportedLocale = typeof supportedLocales[number];
+export type LocaleString = string;
 
-// 翻译类型声明
-export type TranslationNamespace = 'common' | 'admin' | 'home' | 'resources' | 'articles';
+// 翻译命名空间
+export type TranslationNamespace = 'common' | 'home' | 'articles' | 'resources' | 'admin' | 'editor' | 'navigation' | 'footer';
 
-// 确保类型安全
-export interface HomeTranslations {
-  title: string;
-  subtitle: string;
-  description: string;
-  exploreButton: string;
-  learnMore: string;
-  resourcesTitle: string;
-  articlesTitle: string;
+// 基础翻译类型
+export interface Translations {
+  [key: string]: string;
 }
 
+// 特定命名空间的翻译接口
 export interface CommonTranslations {
-  home: string;
-  resources: string;
-  tutorials: string;
-  login: string;
-  logout: string;
-  admin: string;
-  about: string;
-  aboutText: string;
-  quickLinks: string;
-  connect: string;
-  allRightsReserved: string;
-  aiTools: string;
-  modelGuides: string;
-  inspirationGallery: string;
-  searchPlaceholder: string;
-  featuredResources: string;
-  latestInspiration: string;
+  title: string;
+  description: string;
   readMore: string;
   viewAll: string;
-  toolsCollection: string;
-  modelsCollection: string;
-  inspirationCollection: string;
-  galleryCollection: string;
+  createdAt: string;
+  updatedAt: string;
+  moreArticles: string;
+  allResources: string;
+}
+
+export interface HomeTranslations {
+  heroTitle: string;
+  heroSubtitle: string;
+  featuredArticles: string;
+  featuredResources: string;
+}
+
+export interface ArticlesTranslations {
+  title: string;
+  description: string;
+  readTime: string;
+  minutesToRead: string;
+  publishedOn: string;
+  latestArticles: string;
 }
 
 export interface ResourcesTranslations {
   title: string;
   description: string;
+  categories: string;
   tools: string;
   models: string;
-  inspiration: string;
-  allResources: string;
-}
-
-export interface ArticlesTranslations {
-  title: string;
-  readMore: string;
+  tutorials: string;
 }
 
 export interface AdminTranslations {
@@ -66,53 +57,86 @@ export interface AdminTranslations {
   createPost: string;
   manageResources: string;
   backToDashboard: string;
+  addResource: string;
+  editResource: string;
+  resourceName: string;
+  resourceDesc: string;
+  resourceUrl: string;
+  save: string;
+  update: string;
+  cancel: string;
+  edit: string;
+  delete: string;
+  confirmDelete: string;
+  loading: string;
+  resourcesList: string;
+  title: string;
+  description: string;
+  content: string;
+  path: string;
+  continue: string;
 }
 
-export interface Translations {
-  common: CommonTranslations;
-  admin: AdminTranslations;
-  home: HomeTranslations;
-  resources: ResourcesTranslations;
-  articles: ArticlesTranslations;
+// 编辑器翻译接口
+export interface EditorTranslations {
+  noArticlePath: string;
+  fetchError: string;
+  fetchErrorTryAgain: string;
+  saveError: string;
+  saveSuccess: string;
+  saveErrorTryAgain: string;
+  loading: string;
+  error: string;
+  titlePlaceholder: string;
+  descriptionPlaceholder: string;
+  contentPlaceholder: string;
+  saveButton: string;
 }
 
-// 翻译对象映射
-const translations: Record<Locale, Translations> = {
-  en: enTranslations as Translations,
-  zh: zhTranslations as Translations
-};
-
-/**
- * 获取特定语言的翻译
- * @param locale - 语言代码
- * @returns 翻译对象
- */
-export function getTranslations(locale: string): Translations {
-  // 确保使用有效的语言
-  const validLocale = SUPPORTED_LOCALES.includes(locale as Locale) ? locale as Locale : DEFAULT_LOCALE;
-  return translations[validLocale];
+// 导航翻译接口
+export interface NavigationTranslations {
+  home: string;
+  articles: string;
+  resources: string;
+  admin: string;
 }
 
-/**
- * 获取特定命名空间的翻译
- * @param namespace - 翻译命名空间
- * @param locale - 语言代码 
- * @returns 特定命名空间的翻译对象
- */
-export function getNamespaceTranslations<T extends TranslationNamespace>(
-  namespace: T, 
-  locale: string
-): T extends 'home' 
-  ? HomeTranslations 
-  : T extends 'common' 
-    ? CommonTranslations 
-    : T extends 'resources'
-      ? ResourcesTranslations
-      : T extends 'articles'
-        ? ArticlesTranslations
-        : T extends 'admin'
-          ? AdminTranslations
-          : Record<string, string> {
-  const trans = getTranslations(locale);
-  return trans[namespace] as any;
+// 页脚翻译接口
+export interface FooterTranslations {
+  copyright: string;
+  allRightsReserved: string;
+  poweredBy: string;
+}
+
+// 获取翻译的函数
+export function getNamespaceTranslations(locale: LocaleString, namespace: TranslationNamespace): Translations {
+  const safeLocale = supportedLocales.includes(locale as SupportedLocale) ? locale : 'en';
+  
+  const translations = {
+    en: enTranslations,
+    zh: zhTranslations
+  };
+  
+  // 安全地访问翻译，如果不存在则返回空对象
+  const localeTranslations = translations[safeLocale as SupportedLocale];
+  
+  // 检查命名空间是否存在
+  if (localeTranslations && namespace in localeTranslations) {
+    return localeTranslations[namespace] as Translations;
+  }
+  
+  // 返回空对象作为后备
+  return {};
+}
+
+// 获取完整翻译的函数
+export function getTranslations(locale: LocaleString): object {
+  const safeLocale = supportedLocales.includes(locale as SupportedLocale) ? locale : 'en';
+  
+  const translations = {
+    en: enTranslations,
+    zh: zhTranslations
+  };
+  
+  return translations[safeLocale as SupportedLocale] || {};
 }

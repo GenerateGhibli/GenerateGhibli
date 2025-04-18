@@ -1,26 +1,27 @@
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
-import React from 'react'
+'use client'
+
+import React, { useState } from 'react'
+import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { getNamespaceTranslations, TranslationNamespace, AdminTranslations } from '@/lib/translations'
 
-interface ResourcesClientProps {
-  locale: string;
-}
-
 interface Resource {
   name: string;
   description: string;
   url: string;
+  icon?: string;
+  category?: string;
 }
 
-export default function ResourcesClient({ locale }: ResourcesClientProps) {
-  const router = useRouter()
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
-  const [resources, setResources] = useState<Resource[]>([])
+interface ResourcesClientActionsProps {
+  initialResources: Resource[];
+  locale: string;
+}
+
+export default function ResourcesClientActions({ initialResources, locale }: ResourcesClientActionsProps) {
+  const [resources, setResources] = useState<Resource[]>(initialResources)
   const [newResource, setNewResource] = useState<Resource>({ name: '', description: '', url: '' })
   const [isEditing, setIsEditing] = useState(false)
   const [editingIndex, setEditingIndex] = useState<number | null>(null)
@@ -28,42 +29,6 @@ export default function ResourcesClient({ locale }: ResourcesClientProps) {
   // 使用全局翻译系统
   const t = getNamespaceTranslations(locale as string, 'admin' as TranslationNamespace) as unknown as AdminTranslations
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const response = await fetch('/api/check-auth')
-        const data = await response.json()
-        
-        if (!data.isLoggedIn) {
-          router.push(`/${locale}/login`)
-          return
-        }
-        
-        setIsLoggedIn(true)
-        fetchResources()
-      } catch (error) {
-        console.error('Failed to check auth:', error)
-        router.push(`/${locale}/login`)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-    
-    checkAuth()
-  }, [router, locale])
-
-  const fetchResources = async () => {
-    try {
-      const response = await fetch(`/api/resources?locale=${locale}`)
-      if (response.ok) {
-        const data = await response.json()
-        setResources(data)
-      }
-    } catch (error) {
-      console.error('加载资源失败:', error)
-    }
-  }
-  
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setNewResource(prev => ({ ...prev, [name]: value }))
@@ -92,10 +57,10 @@ export default function ResourcesClient({ locale }: ResourcesClientProps) {
       })
       
       if (response.ok) {
+        setResources(updatedResources)
         setNewResource({ name: '', description: '', url: '' })
         setIsEditing(false)
         setEditingIndex(null)
-        fetchResources()
       }
     } catch (error) {
       console.error('保存资源失败:', error)
@@ -124,7 +89,7 @@ export default function ResourcesClient({ locale }: ResourcesClientProps) {
         })
         
         if (response.ok) {
-          fetchResources()
+          setResources(updatedResources)
         }
       } catch (error) {
         console.error('删除资源失败:', error)
@@ -132,39 +97,15 @@ export default function ResourcesClient({ locale }: ResourcesClientProps) {
     }
   }
   
-  // 处理导航
-  const handleNavigation = (path: string) => {
-    try {
-      router.push(path)
-    } catch (error) {
-      console.error(`导航到 ${path} 失败:`, error)
-      // 如果导航失败，可以尝试备用方案
-      window.location.href = path
-    }
-  }
-  
-  if (isLoading) {
-    return <div className="container py-8">{t.loading}</div>
-  }
-  
-  if (!isLoggedIn) {
-    return null // Router will redirect
-  }
-  
   return (
-    <div className="container py-8">
-      <button 
-        onClick={() => handleNavigation(`/${locale}/admin`)}
-        className="mb-6 flex items-center text-primary hover:underline"
-      >
-        <span className="mr-2">←</span> {t.backToDashboard}
-      </button>
-      
-      <h1 className="text-3xl font-bold mb-6">{t.manageResources}</h1>
-      
+    <div>
       <div className="border rounded-lg p-6 shadow-sm mb-8">
         {!isEditing ? (
-          <Button onClick={() => setIsEditing(true)} className="mb-4">
+          <Button onClick={() => setIsEditing(true)} className="mb-4 flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
             {t.addResource}
           </Button>
         ) : (
@@ -186,6 +127,18 @@ export default function ResourcesClient({ locale }: ResourcesClientProps) {
               placeholder={t.resourceUrl}
               required
             />
+            <Input
+              name="icon"
+              value={newResource.icon || ''}
+              onChange={handleInputChange}
+              placeholder="图标URL (选填)"
+            />
+            <Input
+              name="category"
+              value={newResource.category || ''}
+              onChange={handleInputChange}
+              placeholder="分类 (tools, models, inspiration 等)"
+            />
             <Textarea
               name="description"
               value={newResource.description}
@@ -195,7 +148,12 @@ export default function ResourcesClient({ locale }: ResourcesClientProps) {
               required
             />
             <div className="flex gap-2">
-              <Button onClick={handleSaveResource}>
+              <Button onClick={handleSaveResource} className="flex items-center gap-2 bg-green-600 hover:bg-green-700">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                  <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                  <polyline points="7 3 7 8 15 8"></polyline>
+                </svg>
                 {editingIndex !== null ? t.update : t.save}
               </Button>
               <Button 
@@ -205,7 +163,12 @@ export default function ResourcesClient({ locale }: ResourcesClientProps) {
                   setEditingIndex(null)
                   setNewResource({ name: '', description: '', url: '' })
                 }}
+                className="flex items-center gap-2 border-red-200 text-red-600 hover:bg-red-50"
               >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
                 {t.cancel}
               </Button>
             </div>
@@ -220,7 +183,25 @@ export default function ResourcesClient({ locale }: ResourcesClientProps) {
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {resources.map((resource, index) => (
               <div key={index} className="border rounded-lg p-4 shadow-sm">
-                <h3 className="font-bold text-lg mb-2">{resource.name}</h3>
+                <div className="flex items-center mb-3">
+                  {resource.icon ? (
+                    <div className="w-8 h-8 mr-3 relative overflow-hidden rounded-full bg-gray-100">
+                      <Image 
+                        src={resource.icon} 
+                        alt={`${resource.name} icon`}
+                        width={32}
+                        height={32}
+                        className="object-contain"
+                        unoptimized
+                      />
+                    </div>
+                  ) : (
+                    <div className="w-8 h-8 mr-3 rounded-full bg-primary/10 flex items-center justify-center">
+                      <span className="text-primary text-xs">{resource.name.substring(0, 2)}</span>
+                    </div>
+                  )}
+                  <h3 className="font-bold text-lg">{resource.name}</h3>
+                </div>
                 <p className="text-muted-foreground mb-2">{resource.description}</p>
                 <a 
                   href={resource.url} 
@@ -235,14 +216,27 @@ export default function ResourcesClient({ locale }: ResourcesClientProps) {
                     size="sm" 
                     variant="outline" 
                     onClick={() => handleEditResource(index)}
+                    className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 text-blue-600 border-blue-200 hover:bg-blue-100"
                   >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
+                      <path d="m15 5 4 4"/>
+                    </svg>
                     {t.edit}
                   </Button>
                   <Button 
                     size="sm" 
                     variant="destructive" 
                     onClick={() => handleDeleteResource(index)}
+                    className="flex items-center gap-1.5 px-3 py-1.5"
                   >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M3 6h18"/>
+                      <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
+                      <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                      <line x1="10" x2="10" y1="11" y2="17"/>
+                      <line x1="14" x2="14" y1="11" y2="17"/>
+                    </svg>
                     {t.delete}
                   </Button>
                 </div>
@@ -253,4 +247,4 @@ export default function ResourcesClient({ locale }: ResourcesClientProps) {
       )}
     </div>
   )
-}
+} 
