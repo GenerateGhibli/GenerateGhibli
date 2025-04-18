@@ -28,6 +28,18 @@ export default function ResourcesClient({ locale }: ResourcesClientProps) {
   // 使用全局翻译系统
   const t = getNamespaceTranslations(locale as string, 'admin' as TranslationNamespace) as unknown as AdminTranslations
 
+  const fetchResources = async () => {
+    try {
+      const response = await fetch(`/api/resources?locale=${locale}`)
+      if (response.ok) {
+        const data = await response.json()
+        setResources(data)
+      }
+    } catch (error) {
+      console.error('加载资源失败:', error)
+    }
+  }
+
   useEffect(() => {
     const checkAuth = async () => {
       try {
@@ -50,20 +62,8 @@ export default function ResourcesClient({ locale }: ResourcesClientProps) {
     }
     
     checkAuth()
-  }, [router, locale])
+  }, [router, locale, fetchResources])
 
-  const fetchResources = async () => {
-    try {
-      const response = await fetch(`/api/resources?locale=${locale}`)
-      if (response.ok) {
-        const data = await response.json()
-        setResources(data)
-      }
-    } catch (error) {
-      console.error('加载资源失败:', error)
-    }
-  }
-  
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setNewResource(prev => ({ ...prev, [name]: value }))

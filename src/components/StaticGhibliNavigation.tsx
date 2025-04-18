@@ -2,7 +2,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { Button } from "@/components/ui/button"
-import { getNamespaceTranslations, CommonTranslations } from '@/lib/translations'
+import { getNamespaceTranslations, TranslationNamespace } from '@/lib/translations'
 import { 
   DropdownMenu,
   DropdownMenuContent,
@@ -17,7 +17,7 @@ interface StaticGhibliNavigationProps {
 
 export function StaticGhibliNavigation({ locale }: StaticGhibliNavigationProps) {
   // 获取common命名空间下的翻译
-  const commonText = getNamespaceTranslations('common', locale) as CommonTranslations;
+  const commonText = getNamespaceTranslations(locale, 'common' as TranslationNamespace) as Record<string, string>;
   
   // 使用翻译的导航项
   const navItems = [

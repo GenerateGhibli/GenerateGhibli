@@ -4,7 +4,7 @@ import { getResourcesData } from '@/lib/resources'
 import { StaticResourceList } from '@/components/StaticResourceList'
 import { StaticArticleList } from '@/components/StaticArticleList'
 import { generateMetadata as generatePageMetadata } from '@/lib/metadata'
-import { getNamespaceTranslations, HomeTranslations } from '@/lib/translations'
+import { getNamespaceTranslations, TranslationNamespace } from '@/lib/translations'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Metadata } from 'next'
@@ -20,7 +20,7 @@ export default function Home({ params }: { params: { locale: string } }) {
   const resources = getResourcesData(params.locale);
   
   // 获取本地化文本
-  const homeText = getNamespaceTranslations('home', params.locale) as HomeTranslations;
+  const homeText = getNamespaceTranslations(params.locale, 'home' as TranslationNamespace);
 
   return (
     <div className="container mx-auto py-8 space-y-16">

@@ -33,15 +33,6 @@ export default function ArticleEditor({ locale: propLocale }: ArticleEditorProps
   // 获取翻译
   const t = getNamespaceTranslations(locale, 'editor' as TranslationNamespace) as unknown as EditorTranslations;
 
-  useEffect(() => {
-    if (path) {
-      fetchArticle(decodeURIComponent(path));
-    } else {
-      setError(t.noArticlePath || 'No article path provided');
-      setIsLoading(false);
-    }
-  }, [path, locale, t]);
-
   const fetchArticle = async (articlePath: string) => {
     setIsLoading(true);
     setError(null);
@@ -59,6 +50,15 @@ export default function ArticleEditor({ locale: propLocale }: ArticleEditorProps
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (path) {
+      fetchArticle(decodeURIComponent(path));
+    } else {
+      setError(t.noArticlePath || 'No article path provided');
+      setIsLoading(false);
+    }
+  }, [path, locale, t, fetchArticle]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;

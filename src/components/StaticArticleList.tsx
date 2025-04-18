@@ -3,7 +3,7 @@ import React from 'react';
 import Link from 'next/link'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { getNamespaceTranslations, CommonTranslations, ArticlesTranslations } from '@/lib/translations'
+import { getNamespaceTranslations, TranslationNamespace } from '@/lib/translations'
 
 interface Article {
   id: string;
@@ -21,8 +21,8 @@ interface StaticArticleListProps {
 
 export function StaticArticleList({ articles, locale }: StaticArticleListProps) {
   // 获取翻译
-  const commonText = getNamespaceTranslations('common', locale) as CommonTranslations;
-  const articlesText = getNamespaceTranslations('articles', locale) as ArticlesTranslations;
+  const commonText = getNamespaceTranslations(locale, 'common' as TranslationNamespace) as Record<string, string>;
+  const articlesText = getNamespaceTranslations(locale, 'articles' as TranslationNamespace) as Record<string, string>;
   
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);

@@ -1,7 +1,7 @@
 // components/GhibliFooter.tsx
 import React from 'react';
 import Link from 'next/link';
-import { getNamespaceTranslations, CommonTranslations } from '@/lib/translations';
+import { getNamespaceTranslations, TranslationNamespace } from '@/lib/translations';
 
 interface GhibliFooterProps {
   locale: string;
@@ -9,7 +9,7 @@ interface GhibliFooterProps {
 
 export function GhibliFooter({ locale }: GhibliFooterProps) {
   // 获取翻译
-  const commonText = getNamespaceTranslations('common', locale) as CommonTranslations;
+  const commonText = getNamespaceTranslations(locale, 'common' as TranslationNamespace) as Record<string, string>;
 
   return (
     <footer className="border-t border-border bg-gradient-to-t from-secondary/30 to-background pt-8">

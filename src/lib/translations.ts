@@ -17,13 +17,34 @@ export interface Translations {
 
 // 特定命名空间的翻译接口
 export interface CommonTranslations {
-  title: string;
-  description: string;
+  title?: string;
+  description?: string;
+  home: string;
+  resources: string;
+  tutorials: string;
+  login?: string;
+  logout?: string;
+  admin?: string;
+  about: string;
+  aboutText: string;
+  quickLinks: string;
+  connect: string;
+  allRightsReserved: string;
+  aiTools?: string;
+  modelGuides?: string;
+  inspirationGallery?: string;
+  searchPlaceholder?: string;
+  featuredResources?: string;
+  latestInspiration?: string;
   readMore: string;
   viewAll: string;
-  createdAt: string;
-  updatedAt: string;
-  moreArticles: string;
+  toolsCollection?: string;
+  modelsCollection?: string;
+  inspirationCollection?: string;
+  galleryCollection?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  moreArticles?: string;
   allResources: string;
 }
 
@@ -121,8 +142,8 @@ export function getNamespaceTranslations(locale: LocaleString, namespace: Transl
   const localeTranslations = translations[safeLocale as SupportedLocale];
   
   // 检查命名空间是否存在
-  if (localeTranslations && namespace in localeTranslations) {
-    return localeTranslations[namespace] as Translations;
+  if (localeTranslations && typeof localeTranslations === 'object' && namespace in localeTranslations) {
+    return localeTranslations[namespace as keyof typeof localeTranslations] as Translations;
   }
   
   // 返回空对象作为后备
