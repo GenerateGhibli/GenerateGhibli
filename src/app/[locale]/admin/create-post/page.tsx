@@ -9,8 +9,10 @@ export const metadata: Metadata = {
 
 export default function CreatePostPage({ params }: { params: { locale: string } }) {
   return (
-    <div className="container mx-auto py-8">
-      <CreatePostClient locale={params.locale} />
-    </div>
+    <main className="min-h-screen py-12">
+      <div className="container">
+        <CreatePostClient locale={params.locale} />
+      </div>
+    </main>
   );
 }

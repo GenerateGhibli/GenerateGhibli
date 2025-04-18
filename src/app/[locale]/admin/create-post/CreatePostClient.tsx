@@ -118,7 +118,7 @@ export default function CreatePostClient({ locale }: CreatePostClientProps) {
   }
   
   if (isLoading) {
-    return <div className="container py-8">Loading...</div>
+    return <div className="p-4">Loading...</div>
   }
   
   if (!isLoggedIn) {
@@ -133,10 +133,10 @@ export default function CreatePostClient({ locale }: CreatePostClientProps) {
     }
     
     return (
-      <div className="container py-8">
+      <div className="space-y-8">
         <button 
           onClick={() => handleNavigation(`/${locale}/admin`)}
-          className="mb-6 flex items-center text-primary hover:underline"
+          className="flex items-center text-primary hover:underline"
         >
           <span className="mr-2">←</span> {t('backToDashboard')}
         </button>
@@ -152,10 +152,10 @@ export default function CreatePostClient({ locale }: CreatePostClientProps) {
   
   // 否则显示创建文章表单
   return (
-    <div className="container py-8">
+    <div className="space-y-8">
       <button 
         onClick={() => handleNavigation(`/${locale}/admin`)}
-        className="mb-6 flex items-center text-primary hover:underline"
+        className="flex items-center text-primary hover:underline"
       >
         <span className="mr-2">←</span> {t('backToDashboard')}
       </button>

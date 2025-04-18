@@ -75,11 +75,11 @@ export default function AdminClient({ locale }: AdminClientProps) {
   }, [router, locale])
   
   if (isLoading) {
-    return <div className="container py-8">Loading...</div>
+    return <div className="p-4">Loading...</div>
   }
   
   if (!isLoggedIn) {
-    return <div className="container py-8">Redirecting to login page...</div>
+    return <div className="p-4">Redirecting to login page...</div>
   }
   
   // 导航到子路由的处理函数
@@ -95,7 +95,7 @@ export default function AdminClient({ locale }: AdminClientProps) {
   }
   
   return (
-    <div className="container py-8">
+    <div className="space-y-8">
       <h1 className="text-3xl font-bold mb-6">{t('dashboard')}</h1>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -104,7 +104,7 @@ export default function AdminClient({ locale }: AdminClientProps) {
           <p className="text-muted-foreground mb-4">Create a new article for your website.</p>
           <button 
             onClick={() => handleNavigation('create-post')}
-            className="bg-primary text-primary-foreground px-4 py-2 rounded-md"
+            className="bg-primary text-primary-foreground px-4 py-2 rounded-md hover:bg-primary/90"
           >
             {t('createPost')}
           </button>
@@ -115,7 +115,7 @@ export default function AdminClient({ locale }: AdminClientProps) {
           <p className="text-muted-foreground mb-4">Manage your website resources.</p>
           <button 
             onClick={() => handleNavigation('resources')}
-            className="bg-primary text-primary-foreground px-4 py-2 rounded-md"
+            className="bg-primary text-primary-foreground px-4 py-2 rounded-md hover:bg-primary/90"
           >
             {t('manageResources')}
           </button>

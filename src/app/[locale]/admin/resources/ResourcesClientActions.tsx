@@ -98,10 +98,10 @@ export default function ResourcesClientActions({ initialResources, locale }: Res
   }
   
   return (
-    <div>
-      <div className="border rounded-lg p-6 shadow-sm mb-8">
+    <div className="space-y-8">
+      <div className="border rounded-lg p-6 shadow-sm">
         {!isEditing ? (
-          <Button onClick={() => setIsEditing(true)} className="mb-4 flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white">
+          <Button onClick={() => setIsEditing(true)} className="flex items-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <line x1="12" y1="5" x2="12" y2="19"></line>
               <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -148,7 +148,7 @@ export default function ResourcesClientActions({ initialResources, locale }: Res
               required
             />
             <div className="flex gap-2">
-              <Button onClick={handleSaveResource} className="flex items-center gap-2 bg-green-600 hover:bg-green-700">
+              <Button onClick={handleSaveResource} className="flex items-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
                   <polyline points="17 21 17 13 7 13 7 21"></polyline>
@@ -163,7 +163,7 @@ export default function ResourcesClientActions({ initialResources, locale }: Res
                   setEditingIndex(null)
                   setNewResource({ name: '', description: '', url: '' })
                 }}
-                className="flex items-center gap-2 border-red-200 text-red-600 hover:bg-red-50"
+                className="flex items-center gap-2"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -216,7 +216,7 @@ export default function ResourcesClientActions({ initialResources, locale }: Res
                     size="sm" 
                     variant="outline" 
                     onClick={() => handleEditResource(index)}
-                    className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 text-blue-600 border-blue-200 hover:bg-blue-100"
+                    className="flex items-center gap-1.5 px-3 py-1.5"
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
@@ -226,9 +226,8 @@ export default function ResourcesClientActions({ initialResources, locale }: Res
                   </Button>
                   <Button 
                     size="sm" 
-                    variant="destructive" 
                     onClick={() => handleDeleteResource(index)}
-                    className="flex items-center gap-1.5 px-3 py-1.5"
+                    className="flex items-center gap-1.5 px-3 py-1.5 bg-primary text-primary-foreground hover:bg-primary/90"
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M3 6h18"/>
