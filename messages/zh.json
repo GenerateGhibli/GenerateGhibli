@@ -32,12 +32,15 @@
   },
   "home": {
     "title": "GenerateGhibli",
-    "subtitle": "吉卜力风格AI图像生成资源导航",
-    "description": "探索创建宫崎骏和吉卜力工作室风格艺术的完整资源库。我们精心收集了最佳AI工具、模型和灵感，帮助您轻松生成充满魔法的梦幻世界、自然风光和令人难忘的角色。无论您是AI艺术爱好者还是吉卜力迷，这里都能找到适合您的资源。",
-    "exploreButton": "探索资源库",
+    "subtitle": "吉卜力风格AI艺术生成资源",
+    "description": "探索全面的资源集合，使用AI创建宫崎骏和吉卜力工作室风格的艺术。发现精选工具、模型和灵感，生成神奇的风景、奇幻的角色和受这家备受喜爱的动画工作室启发的魔法世界。",
+    "exploreButton": "探索资源",
     "learnMore": "浏览文章",
     "resourcesTitle": "精选资源",
-    "articlesTitle": "创作文章"
+    "articlesTitle": "创意文章",
+    "ghibliStyleLabel": "吉卜力风格",
+    "exploreResourcesLabel": "探索精选导航资源",
+    "experienceGhibliLabel": "体验吉卜力风格艺术的魅力"
   },
   "resources": {
     "title": "AI工具",

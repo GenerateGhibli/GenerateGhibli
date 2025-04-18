@@ -74,8 +74,8 @@ export function StaticArticleList({ articles, locale }: StaticArticleListProps) 
             </CardContent>
             
             <CardFooter>
-              <Link href={`/${locale}/posts/${article.id}`} className="w-full">
-                <Button variant="outline" className="w-full ghibli-button bg-transparent border-primary text-primary hover:bg-primary/10">
+              <Link href={`/${locale}/posts/${article.id}`}>
+                <Button variant="soft" className="w-full text-primary-foreground bg-primary/90 hover:bg-primary mt-2">
                   {articlesText.readMore}
                 </Button>
               </Link>

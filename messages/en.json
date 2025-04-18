@@ -37,7 +37,10 @@
     "exploreButton": "Explore Resources",
     "learnMore": "Browse Articles",
     "resourcesTitle": "Featured Resources",
-    "articlesTitle": "Creative Articles"
+    "articlesTitle": "Creative Articles",
+    "ghibliStyleLabel": "Ghibli Style",
+    "exploreResourcesLabel": "Explore curated resources",
+    "experienceGhibliLabel": "Experience the magic of Ghibli-style art"
   },
   "resources": {
     "title": "AI Tools",

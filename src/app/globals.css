@@ -4,66 +4,66 @@
  
 @layer base {
   :root {
-    /* 吉卜力风格的柔和自然色调 */
-    --background: 45 30% 98%; /* 淡米色背景 */
-    --foreground: 200 15% 25%; /* 深蓝灰色文字 */
+    /* 吉卜力风格的柔和自然色调 - 调整为更温暖自然的色彩 */
+    --background: 43 40% 94%; /* 更温暖的米色背景 */
+    --foreground: 32 15% 28%; /* 更温暖的深褐色文字 */
 
-    --card: 45 30% 98%;
-    --card-foreground: 200 15% 25%;
+    --card: 43 40% 96%;
+    --card-foreground: 32 15% 28%;
  
-    --popover: 45 30% 98%;
-    --popover-foreground: 200 15% 25%;
+    --popover: 43 40% 96%;
+    --popover-foreground: 32 15% 28%;
  
-    --primary: 195 54% 41%; /* 吉卜力蓝 - 类似《天空之城》的蓝色 */
-    --primary-foreground: 45 30% 98%;
+    --primary: 176 45% 40%; /* 多瑙河蓝 - 宫崎骏常用的蓝绿色 */
+    --primary-foreground: 43 40% 94%;
  
-    --secondary: 150 20% 80%; /* 柔和的薄荷绿 - 《龙猫》的森林色调 */
-    --secondary-foreground: 200 15% 25%;
+    --secondary: 93 25% 72%; /* 更自然的草绿色 - 更接近《龙猫》中的森林色调 */
+    --secondary-foreground: 32 15% 28%;
  
-    --muted: 45 20% 92%;
-    --muted-foreground: 200 10% 40%;
+    --muted: 43 25% 90%;
+    --muted-foreground: 32 15% 45%;
  
-    --accent: 25 70% 80%; /* 温暖的橙色 - 《千与千寻》的温暖色调 */
-    --accent-foreground: 200 15% 25%;
+    --accent: 35 80% 75%; /* 更温暖的橙色 - 《千与千寻》的日落色调 */
+    --accent-foreground: 32 15% 28%;
  
-    --destructive: 0 70% 60%;
-    --destructive-foreground: 45 30% 98%;
+    --destructive: 0 65% 60%;
+    --destructive-foreground: 43 40% 94%;
 
-    --border: 45 15% 85%;
-    --input: 45 15% 85%;
-    --ring: 195 54% 41%;
+    --border: 43 20% 82%;
+    --input: 43 20% 82%;
+    --ring: 176 45% 40%;
  
-    --radius: 1rem; /* 更圆润的边角 */
+    --radius: 1.25rem; /* 更圆润的边角 */
   }
  
   .dark {
-    --background: 200 30% 15%; /* 深蓝灰色背景 - 夜空色调 */
-    --foreground: 45 20% 90%;
+    --background: 210 30% 12%; /* 深蓝灰色背景 - 《天空之城》夜空色调 */
+    --foreground: 43 30% 90%;
  
-    --card: 200 30% 15%;
-    --card-foreground: 45 20% 90%;
+    --card: 210 30% 14%;
+    --card-foreground: 43 30% 90%;
  
-    --popover: 200 30% 15%;
-    --popover-foreground: 45 20% 90%;
+    --popover: 210 30% 14%;
+    --popover-foreground: 43 30% 90%;
  
-    --primary: 195 54% 50%; /* 更亮的吉卜力蓝 */
-    --primary-foreground: 200 30% 15%;
+    --primary: 176 45% 45%; /* 更亮的吉卜力绿蓝色 */
+    --primary-foreground: 210 30% 12%;
  
-    --secondary: 150 20% 30%; /* 深绿色 */
-    --secondary-foreground: 45 20% 90%;
+    --secondary: 93 25% 35%; /* 深森林绿色 */
+    --secondary-foreground: 43 30% 90%;
  
-    --muted: 200 25% 25%;
-    --muted-foreground: 45 15% 70%;
+    --muted: 210 25% 20%;
+    --muted-foreground: 43 25% 75%;
  
-    --accent: 25 70% 50%; /* 深橙色 */
-    --accent-foreground: 45 20% 90%;
+    --accent: 35 75% 55%; /* 温暖深橙色 */
+    --accent-foreground: 43 30% 90%;
  
     --destructive: 0 62.8% 40%;
-    --destructive-foreground: 45 20% 90%;
+    --destructive-foreground: 43 30% 90%;
  
-    --border: 200 25% 25%;
-    --input: 200 25% 25%;
-    --ring: 195 54% 50%;
+    --border: 210 25% 22%;
+    --input: 210 25% 22%;
+    --ring: 176 45% 45%;
   }
 }
  
@@ -73,29 +73,64 @@
   }
   body {
     @apply bg-background text-foreground;
-    background-image: url('/ghibli-bg-pattern.png');
-    background-repeat: repeat;
+    background-image: 
+      url('/ghibli-bg-pattern.png');
     background-size: 300px;
+    background-repeat: repeat;
     background-attachment: fixed;
-    background-blend-mode: soft-light;
-    background-opacity: 0.03;
+    background-blend-mode: overlay;
+    min-height: 100vh;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif tracking-wide;
+    color: hsl(var(--foreground));
+  }
+  
+  h1 {
+    @apply text-4xl md:text-5xl font-bold mb-6;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  h2 {
+    @apply text-3xl md:text-4xl font-bold mb-4;
+  }
+  
+  a {
+    @apply transition-colors duration-200;
   }
 }
 
 /* 吉卜力风格的自定义组件 */
 @layer components {
   .ghibli-card {
-    @apply bg-card rounded-xl border border-border shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+    @apply bg-card rounded-xl border border-border overflow-hidden transition-all duration-300 hover:shadow-xl relative;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08), 0 2px 5px rgba(0, 0, 0, 0.06);
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--accent)));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    &:hover::before {
+      opacity: 1;
+    }
   }
   
   .ghibli-title {
     @apply font-serif tracking-wide;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
   }
   
   .ghibli-button {
-    @apply rounded-full px-6 py-2 transition-all duration-300 bg-primary text-primary-foreground hover:bg-primary/90 shadow-md hover:shadow-lg;
+    @apply rounded-full px-6 py-2.5 transition-all duration-300 font-medium shadow-md hover:shadow-lg transform hover:-translate-y-0.5;
+    background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--primary)/0.9));
+    color: hsl(var(--primary-foreground));
   }
   
   .ghibli-nav-link {
@@ -104,10 +139,50 @@
   
   .ghibli-nav-link::after {
     content: '';
-    @apply absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300;
+    @apply absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-300;
+    background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--accent)));
   }
   
   .ghibli-nav-link:hover::after {
     @apply w-full;
+  }
+  
+  .ghibli-content {
+    @apply prose prose-stone mx-auto max-w-3xl px-6 py-8;
+    
+    p {
+      @apply leading-relaxed text-foreground/90;
+    }
+    
+    img {
+      @apply rounded-lg shadow-md my-8;
+    }
+  }
+  
+  .ghibli-gradient-text {
+    @apply bg-gradient-to-r from-[hsl(176,45%,40%)] to-[hsl(93,25%,60%)] bg-clip-text text-transparent;
+  }
+  
+  .ghibli-image-frame {
+    @apply relative rounded-xl overflow-hidden shadow-ghibli p-1 bg-background;
+    
+    &::after {
+      content: '';
+      @apply absolute inset-0 pointer-events-none;
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.05);
+      border-radius: inherit;
+    }
+    
+    img {
+      @apply rounded-lg;
+    }
+  }
+  
+  .image-placeholder {
+    @apply bg-gradient-to-br from-muted to-card flex items-center justify-center rounded-lg;
+  }
+  
+  .ghibli-placeholder {
+    @apply bg-gradient-to-br from-primary/10 to-secondary/20 flex items-center justify-center rounded-lg;
   }
 }
