@@ -1,3 +1,4 @@
+import React from 'react'
 import { getPostData, getSortedPostsData } from '@/lib/posts'
 import { notFound } from 'next/navigation'
 import { Metadata } from 'next'
@@ -5,7 +6,7 @@ import { Metadata } from 'next'
 // 动态生成元数据
 export async function generateMetadata({ params }: { params: { id: string, locale: string } }): Promise<Metadata> {
   try {
-    const postData = await getPostData(params.id)
+    const postData = await getPostData(params.id, params.locale)
     return {
       title: `${postData.title} | GenerateGhibli`,
       description: postData.description || '吉卜力风格AI创作灵感和教程',
@@ -16,7 +17,7 @@ export async function generateMetadata({ params }: { params: { id: string, local
         publishedTime: postData.date,
       }
     }
-  } catch (error) {
+  } catch {
     return {
       title: '文章未找到 | GenerateGhibli',
       description: '抱歉，您请求的文章不存在。'
@@ -24,10 +25,19 @@ export async function generateMetadata({ params }: { params: { id: string, local
   }
 }
 
+// 定义文章类型接口
+interface Article {
+  id: string;
+  title: string;
+  description: string;
+  date: string;
+  coverImage?: string;
+}
+
 // 生成静态路径
 export async function generateStaticParams() {
-  const posts = getSortedPostsData()
-  return posts.map((post) => ({
+  const posts = getSortedPostsData() as Article[]
+  return posts.map((post: Article) => ({
     id: post.id,
   }))
 }
@@ -36,8 +46,8 @@ export default async function Post({ params }: { params: { id: string, locale: s
   let postData;
   
   try {
-    postData = await getPostData(params.id)
-  } catch (error) {
+    postData = await getPostData(params.id, params.locale)
+  } catch {
     notFound()
   }
   

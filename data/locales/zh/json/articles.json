@@ -1,0 +1,16 @@
+[
+  {
+    "title": "如何用AI创建龙猫(Totoro)风格角色",
+    "description": "学习如何使用AI图像生成器创建龙猫风格的角色，本教程提供了详细的步骤指南。",
+    "date": "2025-04-15T10:30:00.000Z",
+    "lastModified": "2025-04-15T13:07:00Z",
+    "path": "data/locales/zh/md/totoro-character-creation.md"
+  },
+  {
+    "title": "吉卜力风格AI艺术创作完全指南",
+    "description": "全面指南，教你使用各种AI图像生成工具和技术创建吉卜力风格的艺术作品。",
+    "date": "2025-04-15T09:15:00.000Z",
+    "lastModified": "2025-04-15T13:06:00Z",
+    "path": "data/locales/zh/md/ghibli-style-ai-art-guide.md"
+  }
+] 

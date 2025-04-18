@@ -84,7 +84,7 @@ export default function ResourcesClient({ locale }: ResourcesClientProps) {
 
   const fetchResources = async () => {
     try {
-      const response = await fetch('/api/resources')
+      const response = await fetch(`/api/resources?locale=${locale}`)
       if (response.ok) {
         const data = await response.json()
         setResources(data)
@@ -104,7 +104,10 @@ export default function ResourcesClient({ locale }: ResourcesClientProps) {
       const response = await fetch('/api/resources', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newResource)
+        body: JSON.stringify({
+          resources: newResource,
+          locale: locale
+        })
       })
       
       if (response.ok) {

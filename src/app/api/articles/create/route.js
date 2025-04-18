@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { Octokit } from '@octokit/rest';
 import matter from 'gray-matter';
+import { Buffer } from 'buffer';
 
 /* eslint-disable no-undef */
 export const runtime = 'nodejs'; // 指定为Node.js运行时
@@ -12,19 +13,22 @@ const octokit = new Octokit({
 
 const owner = process.env.GITHUB_OWNER;
 const repo = process.env.GITHUB_REPO;
-const articlesJsonPath = 'data/json/articles.json';
-const mdFolderPath = 'data/md';
+const zhArticlesJsonPath = 'data/locales/zh/json/articles.json';
+const enArticlesJsonPath = 'data/locales/en/json/articles.json';
+const zhMdFolderPath = 'data/locales/zh/md';
+const enMdFolderPath = 'data/locales/en/md';
 /* eslint-enable no-undef */
 
 export async function POST(request) {
-  const { title, description, content, slug } = await request.json();
+  const { title, description, content, slug, locale = 'en' } = await request.json();
 
   // Validate slug
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) {
     return NextResponse.json({ error: 'Invalid slug format' }, { status: 400 });
   }
 
-  const path = `data/md/${slug}.md`;
+  const mdFolderPath = locale === 'zh' ? zhMdFolderPath : enMdFolderPath;
+  const path = `${mdFolderPath}/${slug}.md`;
 
   try {
     // Check if file already exists
@@ -34,7 +38,7 @@ export async function POST(request) {
         repo,
         path,
       });
-      return NextResponse.json({ error: 'Article with this slug already exists' }, { status: 400 });
+      return NextResponse.json({ error: `Article with slug "${slug}" already exists for ${locale}` }, { status: 400 });
     } catch (error) {
       if (error.status !== 404) {
         throw error;
@@ -52,22 +56,24 @@ export async function POST(request) {
       owner,
       repo,
       path,
-      message: `Create new article: ${title}`,
+      message: `Create new ${locale} article: ${title}`,
       content: Buffer.from(fileContent).toString('base64'),
     });
 
     // Sync articles
-    await syncArticles();
+    await syncArticles(locale);
 
-    return NextResponse.json({ message: 'Article created successfully' });
+    return NextResponse.json({ message: `Article created successfully for ${locale}` });
   } catch (error) {
-    console.error('Error creating article:', error);
+    console.error(`Error creating ${locale} article:`, error);
     return NextResponse.json({ error: 'Failed to create article' }, { status: 500 });
   }
 }
 
+async function syncArticles(locale = 'en') {
+  const mdFolderPath = locale === 'zh' ? zhMdFolderPath : enMdFolderPath;
+  const articlesJsonPath = locale === 'zh' ? zhArticlesJsonPath : enArticlesJsonPath;
 
-async function syncArticles() {
   try {
     // Fetch all MD files
     const { data: files } = await octokit.repos.getContent({
@@ -86,7 +92,7 @@ async function syncArticles() {
       });
 
       const content = Buffer.from(data.content, 'base64').toString('utf8');
-      const { data: frontMatter, content: articleContent } = matter(content);
+      const { data: frontMatter } = matter(content);
 
       // Fetch the last commit for this file
       const { data: commits } = await octokit.repos.listCommits({
@@ -118,13 +124,13 @@ async function syncArticles() {
       owner,
       repo,
       path: articlesJsonPath,
-      message: 'Sync articles',
+      message: `Sync ${locale} articles`,
       content: Buffer.from(JSON.stringify(articles, null, 2)).toString('base64'),
       sha: currentFile.sha,
     });
 
   } catch (error) {
-    console.error('Error syncing articles:', error);
+    console.error(`Error syncing ${locale} articles:`, error);
     throw error;
   }
 }

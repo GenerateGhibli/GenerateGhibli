@@ -1,0 +1,44 @@
+[
+  {
+    "name": "ChatIMG AI",
+    "description": "AI image generation tool supporting Ghibli style creation",
+    "url": "https://chatimg.ai/en",
+    "icon": "https://chatimg.ai/favicon.ico",
+    "category": "tools"
+  },
+  {
+    "name": "Ghibli Diffusion",
+    "description": "AI model optimized for Studio Ghibli style",
+    "url": "https://getimg.ai/models/ghibli-diffusion",
+    "icon": "https://getimg.ai/favicon.ico",
+    "category": "models"
+  },
+  {
+    "name": "Ghibli GPT",
+    "description": "AI image generation platform for Ghibli style art",
+    "url": "https://www.ghibli-gpt.com/",
+    "icon": "https://www.ghibli-gpt.com/favicon.ico",
+    "category": "tools"
+  },
+  {
+    "name": "Ghiblit AI",
+    "description": "Tool focused on Ghibli style AI art generation",
+    "url": "https://ghiblit.ai/",
+    "icon": "https://ghiblit.ai/favicon.ico",
+    "category": "tools"
+  },
+  {
+    "name": "Miyazaki Prompt Guide",
+    "description": "Prompt guide for Miyazaki style AI art",
+    "url": "https://prompthero.com/miyazaki-prompt-guide",
+    "icon": "https://prompthero.com/favicon.ico",
+    "category": "inspiration"
+  },
+  {
+    "name": "Ghibli Landscapes",
+    "description": "Reference for Ghibli style natural landscape AI generation",
+    "url": "https://ghibli-landscapes.com/",
+    "icon": "https://ghibli-landscapes.com/favicon.ico",
+    "category": "inspiration"
+  }
+] 

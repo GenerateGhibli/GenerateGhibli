@@ -1,8 +1,8 @@
-// components/StaticGhibliNavigation.js
+// components/StaticGhibliNavigation.tsx
 import React from 'react'
 import Link from 'next/link'
-import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
+import { getNamespaceTranslations, CommonTranslations } from '@/lib/translations'
 import { 
   DropdownMenu,
   DropdownMenuContent,
@@ -11,12 +11,19 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Globe } from 'lucide-react'
 
-export function StaticGhibliNavigation({ locale }) {
+interface StaticGhibliNavigationProps {
+  locale: string;
+}
+
+export function StaticGhibliNavigation({ locale }: StaticGhibliNavigationProps) {
+  // 获取common命名空间下的翻译
+  const commonText = getNamespaceTranslations('common', locale) as CommonTranslations;
+  
   // 使用翻译的导航项
   const navItems = [
-    { path: '/', label: locale === 'zh' ? '首页' : 'Home' },
-    { path: '/resources', label: locale === 'zh' ? 'AI工具' : 'AI Tools' },
-    { path: '/posts', label: locale === 'zh' ? '创作灵感' : 'Inspiration' },
+    { path: '/', label: commonText.home },
+    { path: '/resources', label: commonText.resources },
+    { path: '/posts', label: commonText.tutorials },
   ]
 
   return (

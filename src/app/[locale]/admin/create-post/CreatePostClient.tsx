@@ -92,7 +92,10 @@ export default function CreatePostClient({ locale }: CreatePostClientProps) {
       await fetch('/api/articles', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ article: articleData }),
+        body: JSON.stringify({ 
+          article: articleData,
+          locale: locale 
+        }),
       })
       
       // 设置编辑状态为true

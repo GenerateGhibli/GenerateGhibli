@@ -1,8 +1,14 @@
-// components/Layout.js
+// components/Layout.tsx
+import React from 'react';
 import { StaticGhibliNavigation } from './StaticGhibliNavigation'
 import { GhibliFooter } from './GhibliFooter'
 
-export function Layout({ children, locale }) {
+interface LayoutProps {
+  children: React.ReactNode;
+  locale: string;
+}
+
+export function Layout({ children, locale }: LayoutProps) {
   return (
     <div className="min-h-screen bg-background font-sans antialiased">
       <StaticGhibliNavigation locale={locale} />

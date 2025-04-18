@@ -1,80 +1,26 @@
 import React from 'react'
 import { getSortedPostsData } from '@/lib/posts'
+import { getResourcesData } from '@/lib/resources'
 import { StaticResourceList } from '@/components/StaticResourceList'
 import { StaticArticleList } from '@/components/StaticArticleList'
-import { Metadata } from 'next'
+import { generateMetadata as generatePageMetadata } from '@/lib/metadata'
+import { getNamespaceTranslations, HomeTranslations } from '@/lib/translations'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+import { Metadata } from 'next'
 
-// 静态导入资源数据
-import resourcesData from '../../../data/json/resources.json'
-
-export const metadata: Metadata = {
-  title: 'GenerateGhibli - 吉卜力风格AI图像生成资源导航 | Studio Ghibli Style AI Art Generator',
-  description: '探索吉卜力风格AI图像生成的完整资源库。收集最佳AI工具、模型和灵感，轻松创建宫崎骏和吉卜力工作室风格的魔幻世界和角色。免费在线生成吉卜力风格图片。',
-  keywords: '吉卜力风格, AI图像生成, 宫崎骏, Studio Ghibli, AI艺术, 人工智能绘画, 吉卜力AI, 动漫风格, AI绘画工具, 吉卜力画风',
-  openGraph: {
-    title: 'GenerateGhibli - 吉卜力风格AI图像生成资源导航',
-    description: '探索吉卜力风格AI图像生成的完整资源库。收集最佳AI工具、模型和灵感，轻松创建宫崎骏和吉卜力工作室风格的魔幻世界和角色。',
-    url: 'https://generateghibli.org',
-    siteName: 'GenerateGhibli',
-    images: [
-      {
-        url: 'https://toimg.xyz/file/5aa892c8e8385232fcdf3.png',
-        width: 1200,
-        height: 630,
-        alt: 'GenerateGhibli - 吉卜力风格AI图像生成资源导航',
-      },
-    ],
-    locale: 'zh_CN',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'GenerateGhibli - 吉卜力风格AI图像生成资源导航',
-    description: '探索吉卜力风格AI图像生成的完整资源库。收集最佳AI工具、模型和灵感，轻松创建宫崎骏和吉卜力工作室风格的魔幻世界和角色。',
-    images: ['https://toimg.xyz/file/5aa892c8e8385232fcdf3.png'],
-  },
-  alternates: {
-    canonical: 'https://generateghibli.org',
-    languages: {
-      'en': 'https://generateghibli.org/en',
-      'zh': 'https://generateghibli.org/zh',
-    },
-  },
+// 静态导出元数据生成函数
+export function generateMetadata({ params }: { params: { locale: string } }): Metadata {
+  return generatePageMetadata({ locale: params.locale });
 }
 
 export default function Home({ params }: { params: { locale: string } }) {
-  // 使用静态导入的资源数据
-  const resources = resourcesData;
+  // 使用新的数据获取函数，基于当前语言
+  const allPostsData = getSortedPostsData(params.locale).slice(0, 6)
+  const resources = getResourcesData(params.locale);
   
-  const allPostsData = getSortedPostsData().slice(0, 6)
-  
-  // 根据当前语言选择文本
-  const getText = () => {
-    if (params.locale === 'zh') {
-      return {
-        title: 'GenerateGhibli',
-        subtitle: '吉卜力风格AI图像生成资源导航',
-        description: '探索创建宫崎骏和吉卜力工作室风格艺术的完整资源库。我们精心收集了最佳AI工具、模型和灵感，帮助您轻松生成充满魔法的梦幻世界、自然风光和令人难忘的角色。无论您是AI艺术爱好者还是吉卜力迷，这里都能找到适合您的资源。',
-        exploreButton: '探索资源库',
-        learnMore: '浏览文章',
-        resourcesTitle: '精选资源',
-        articlesTitle: '创作文章'
-      }
-    }
-    return {
-      title: 'GenerateGhibli',
-      subtitle: 'Studio Ghibli Style AI Art Generation Resources',
-      description: 'Explore a comprehensive collection of resources for creating Hayao Miyazaki and Studio Ghibli style art with AI. Discover curated tools, models, and inspiration to generate magical landscapes, whimsical characters, and enchanted worlds inspired by the beloved animation studio.',
-      exploreButton: 'Explore Resources',
-      learnMore: 'Browse Articles',
-      resourcesTitle: 'Featured Resources',
-      articlesTitle: 'Creative Articles'
-    }
-  }
-  
-  const text = getText()
+  // 获取本地化文本
+  const homeText = getNamespaceTranslations('home', params.locale) as HomeTranslations;
 
   return (
     <div className="container mx-auto py-8 space-y-16">
@@ -89,21 +35,21 @@ export default function Home({ params }: { params: { locale: string } }) {
         
         <div className="relative text-center space-y-6 max-w-3xl mx-auto">
           <h1 className="text-4xl font-serif font-bold tracking-wide sm:text-5xl md:text-6xl lg:text-7xl ghibli-title">
-            {text.title}
+            {homeText.title}
           </h1>
-          <h2 className="text-2xl font-serif tracking-wide sm:text-3xl md:text-3xl lg:text-3xl">{text.subtitle}</h2>
+          <h2 className="text-2xl font-serif tracking-wide sm:text-3xl md:text-3xl lg:text-3xl">{homeText.subtitle}</h2>
           <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl leading-relaxed">
-            {text.description}
+            {homeText.description}
           </p>
           <div className="pt-6 flex justify-center gap-4">
             <Link href={`/${params.locale}/resources`}>
               <Button className="ghibli-button text-base px-8 py-6">
-                {text.exploreButton}
+                {homeText.exploreButton}
               </Button>
             </Link>
             <Link href={`/${params.locale}/posts`}>
               <Button variant="outline" className="ghibli-button bg-transparent border-primary text-primary hover:bg-primary/10 text-base px-8 py-6">
-                {text.learnMore}
+                {homeText.learnMore}
               </Button>
             </Link>
           </div>

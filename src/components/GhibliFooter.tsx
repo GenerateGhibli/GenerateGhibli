@@ -1,40 +1,15 @@
-// components/GhibliFooter.js
+// components/GhibliFooter.tsx
+import React from 'react';
 import Link from 'next/link';
+import { getNamespaceTranslations, CommonTranslations } from '@/lib/translations';
 
-export function GhibliFooter({ locale }) {
-  // 服务器组件，使用硬编码文本
-  const t = (key) => {
-    const translations = {
-      en: {
-        about: 'About GenerateGhibli',
-        aboutText: 'GenerateGhibli is your ultimate resource center for creating Studio Ghibli inspired AI art. Discover curated tools, models, and inspiration to generate magical worlds and characters in the beloved Miyazaki style.',
-        quickLinks: 'Quick Links',
-        home: 'Home',
-        resources: 'AI Tools',
-        posts: 'Inspiration',
-        connect: 'Connect',
-        allRightsReserved: 'All rights reserved.',
-        aiTools: 'AI Generation Tools',
-        modelGuides: 'AI Models',
-        inspirationGallery: 'Inspiration Gallery'
-      },
-      zh: {
-        about: '关于GenerateGhibli',
-        aboutText: 'GenerateGhibli是您创建吉卜力工作室风格AI艺术的终极资源中心。探索精选AI工具、模型和灵感，以宫崎骏标志性风格生成魔幻世界和角色。',
-        quickLinks: '快速链接',
-        home: '首页',
-        resources: 'AI工具',
-        posts: '创作灵感',
-        connect: '联系我们',
-        allRightsReserved: '版权所有。',
-        aiTools: 'AI生成工具',
-        modelGuides: 'AI模型',
-        inspirationGallery: '灵感画廊'
-      }
-    };
-    
-    return translations[locale]?.[key] || translations['en'][key];
-  };
+interface GhibliFooterProps {
+  locale: string;
+}
+
+export function GhibliFooter({ locale }: GhibliFooterProps) {
+  // 获取翻译
+  const commonText = getNamespaceTranslations('common', locale) as CommonTranslations;
 
   return (
     <footer className="border-t border-border bg-gradient-to-t from-secondary/30 to-background pt-8">
@@ -42,10 +17,10 @@ export function GhibliFooter({ locale }) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           <div className="space-y-4">
             <h3 className="text-base font-serif font-semibold tracking-wide text-primary ghibli-title">
-              {t('about')}
+              {commonText.about}
             </h3>
             <p className="text-base text-muted-foreground leading-relaxed">
-              {t('aboutText')}
+              {commonText.aboutText}
             </p>
             <div className="pt-4">
               <div className="flex items-center space-x-2">
@@ -60,22 +35,22 @@ export function GhibliFooter({ locale }) {
           
           <div className="space-y-4">
             <h3 className="text-base font-serif font-semibold tracking-wide text-primary ghibli-title">
-              {t('quickLinks')}
+              {commonText.quickLinks}
             </h3>
             <ul className="space-y-3">
               <li>
                 <Link href={`/${locale}`} className="text-base text-muted-foreground hover:text-primary transition-colors duration-300 ghibli-nav-link inline-block">
-                  {t('home')}
+                  {commonText.home}
                 </Link>
               </li>
               <li>
                 <Link href={`/${locale}/resources`} className="text-base text-muted-foreground hover:text-primary transition-colors duration-300 ghibli-nav-link inline-block">
-                  {t('resources')}
+                  {commonText.resources}
                 </Link>
               </li>
               <li>
                 <Link href={`/${locale}/posts`} className="text-base text-muted-foreground hover:text-primary transition-colors duration-300 ghibli-nav-link inline-block">
-                  {t('posts')}
+                  {commonText.tutorials}
                 </Link>
               </li>
             </ul>
@@ -83,7 +58,7 @@ export function GhibliFooter({ locale }) {
           
           <div className="space-y-4">
             <h3 className="text-base font-serif font-semibold tracking-wide text-primary ghibli-title">
-              {t('connect')}
+              {commonText.connect}
             </h3>
             <ul className="space-y-3">
               <li>
@@ -97,7 +72,7 @@ export function GhibliFooter({ locale }) {
         
         <div className="mt-12 pt-6 border-t border-border/50">
           <p className="text-sm text-muted-foreground text-center">
-            &copy; {new Date().getFullYear()} GenerateGhibli. {t('allRightsReserved')}
+            &copy; {new Date().getFullYear()} GenerateGhibli. {commonText.allRightsReserved}
           </p>
         </div>
       </div>

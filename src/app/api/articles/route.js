@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { Octokit } from '@octokit/rest';
 import matter from 'gray-matter';
+import { Buffer } from 'buffer';
 
 /* eslint-disable no-undef */
 export const runtime = 'nodejs'; // 指定为Node.js运行时
@@ -12,14 +13,17 @@ const octokit = new Octokit({
 
 const owner = process.env.GITHUB_OWNER;
 const repo = process.env.GITHUB_REPO;
-const articlesJsonPath = 'data/json/articles.json';
-const mdFolderPath = 'data/md';
+const zhArticlesJsonPath = 'data/locales/zh/json/articles.json';
+const enArticlesJsonPath = 'data/locales/en/json/articles.json';
+const zhMdFolderPath = 'data/locales/zh/md';
+const enMdFolderPath = 'data/locales/en/md';
 /* eslint-enable no-undef */
 
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const sync = searchParams.get('sync');
   const path = searchParams.get('path');
+  const locale = searchParams.get('locale') || 'en';
 
   try {
     if (path) {
@@ -44,9 +48,10 @@ export async function GET(request) {
         return NextResponse.json({ error: 'Failed to fetch article' }, { status: 500 });
       }
     } else if (sync === 'true') {
-      await syncArticles();
+      await syncArticles(locale);
     }
 
+    const articlesJsonPath = locale === 'zh' ? zhArticlesJsonPath : enArticlesJsonPath;
     const { data } = await octokit.repos.getContent({
       owner,
       repo,
@@ -64,14 +69,14 @@ export async function GET(request) {
 }
 
 export async function POST(request) {
-  const { article } = await request.json();
+  const { article, locale = 'en' } = await request.json();
 
   try {
     // Update the MD file
-    await updateMdFile(article);
+    await updateMdFile(article, locale);
 
     // Sync articles
-    await syncArticles();
+    await syncArticles(locale);
 
     return NextResponse.json({ message: 'Article updated successfully' });
   } catch (error) {
@@ -80,7 +85,10 @@ export async function POST(request) {
   }
 }
 
-async function syncArticles() {
+async function syncArticles(locale = 'en') {
+  const mdFolderPath = locale === 'zh' ? zhMdFolderPath : enMdFolderPath;
+  const articlesJsonPath = locale === 'zh' ? zhArticlesJsonPath : enArticlesJsonPath;
+
   try {
     // Fetch all MD files
     const { data: files } = await octokit.repos.getContent({
@@ -131,18 +139,18 @@ async function syncArticles() {
       owner,
       repo,
       path: articlesJsonPath,
-      message: 'Sync articles',
+      message: `Sync ${locale} articles`,
       content: Buffer.from(JSON.stringify(articles, null, 2)).toString('base64'),
       sha: currentFile.sha,
     });
 
   } catch (error) {
-    console.error('Error syncing articles:', error);
+    console.error(`Error syncing ${locale} articles:`, error);
     throw error;
   }
 }
 
-async function updateMdFile(article) {
+async function updateMdFile(article, locale = 'en') {
   try {
     const { data: currentFile } = await octokit.repos.getContent({
       owner,
@@ -166,13 +174,13 @@ async function updateMdFile(article) {
       owner,
       repo,
       path: article.path,
-      message: `Update article: ${article.title}`,
+      message: `Update ${locale} article: ${article.title}`,
       content: Buffer.from(updatedContent).toString('base64'),
       sha: currentFile.sha,
     });
 
   } catch (error) {
-    console.error('Error updating MD file:', error);
+    console.error(`Error updating ${locale} MD file:`, error);
     throw error;
   }
 }

@@ -1,12 +1,32 @@
-// components/StaticArticleList.js
+// components/StaticArticleList.tsx
+import React from 'react';
 import Link from 'next/link'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { getNamespaceTranslations, CommonTranslations, ArticlesTranslations } from '@/lib/translations'
 
-export function StaticArticleList({ articles, locale }) {
-  const formatDate = (dateString) => {
+interface Article {
+  id: string;
+  title: string;
+  description: string;
+  date: string;
+  coverImage?: string;
+  excerpt?: string;
+}
+
+interface StaticArticleListProps {
+  articles: Article[];
+  locale: string;
+}
+
+export function StaticArticleList({ articles, locale }: StaticArticleListProps) {
+  // 获取翻译
+  const commonText = getNamespaceTranslations('common', locale) as CommonTranslations;
+  const articlesText = getNamespaceTranslations('articles', locale) as ArticlesTranslations;
+  
+  const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
     return date.toLocaleDateString(locale === 'zh' ? 'zh-CN' : 'en-US', options);
   };
   
@@ -14,10 +34,10 @@ export function StaticArticleList({ articles, locale }) {
     <section>
       <div className="flex justify-between items-center mb-8">
         <h2 className="text-3xl font-serif font-semibold tracking-wide ghibli-title">
-          {locale === 'zh' ? '吉卜力灵感' : 'Ghibli Inspiration'}
+          {commonText.latestInspiration}
         </h2>
         <Link href={`/${locale}/posts`} className="text-primary hover:text-primary/80 transition-colors duration-300 ghibli-nav-link">
-          {locale === 'zh' ? '更多灵感 →' : 'More Inspiration →'}
+          {commonText.viewAll} →
         </Link>
       </div>
       
@@ -56,7 +76,7 @@ export function StaticArticleList({ articles, locale }) {
             <CardFooter>
               <Link href={`/${locale}/posts/${article.id}`} className="w-full">
                 <Button variant="outline" className="w-full ghibli-button bg-transparent border-primary text-primary hover:bg-primary/10">
-                  {locale === 'zh' ? '阅读全文' : 'Read More'}
+                  {articlesText.readMore}
                 </Button>
               </Link>
             </CardFooter>

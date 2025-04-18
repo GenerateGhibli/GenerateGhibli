@@ -1,7 +1,8 @@
 'use client';
 
+import React from 'react';
 import { useState, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, usePathname } from 'next/navigation';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -11,7 +12,11 @@ export default function ArticleEditor() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const searchParams = useSearchParams();
+  const pathname = usePathname();
   const path = searchParams.get('path');
+  
+  // 从路径中提取locale
+  const locale = pathname.split('/')[1] || 'en';
 
   useEffect(() => {
     if (path) {
@@ -26,7 +31,7 @@ export default function ArticleEditor() {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await fetch(`/api/articles?path=${encodeURIComponent(articlePath)}`);
+      const response = await fetch(`/api/articles?path=${encodeURIComponent(articlePath)}&locale=${locale}`);
       if (!response.ok) {
         throw new Error('Failed to fetch article');
       }
@@ -50,7 +55,10 @@ export default function ArticleEditor() {
       const response = await fetch('/api/articles', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ article }),
+        body: JSON.stringify({ 
+          article,
+          locale 
+        }),
       });
       if (!response.ok) {
         throw new Error('Failed to save article');
