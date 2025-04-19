@@ -26,19 +26,5 @@
     "url": "https://ghiblit.ai/",
     "icon": "https://ghiblit.ai/favicon.ico",
     "category": "tools"
-  },
-  {
-    "name": "Miyazaki Prompt Guide",
-    "description": "Prompt guide for Miyazaki style AI art",
-    "url": "https://prompthero.com/miyazaki-prompt-guide",
-    "icon": "https://prompthero.com/favicon.ico",
-    "category": "inspiration"
-  },
-  {
-    "name": "Ghibli Landscapes",
-    "description": "Reference for Ghibli style natural landscape AI generation",
-    "url": "https://ghibli-landscapes.com/",
-    "icon": "https://ghibli-landscapes.com/favicon.ico",
-    "category": "inspiration"
   }
 ] 
