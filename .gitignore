@@ -41,3 +41,7 @@ cloudflare-env.d.ts
 # opennextjs
 .open-next
 .wrangler/
+
+# crawlers
+scripts/crawlers/node_modules/
+scripts/crawlers/.env.local
