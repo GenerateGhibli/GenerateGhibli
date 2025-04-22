@@ -26,5 +26,89 @@
     "url": "https://ghiblit.ai/",
     "icon": "https://ghiblit.ai/favicon.ico",
     "category": "tools"
+  },
+  {
+    "name": "Ghibli AI",
+    "description": "Advanced image transformation tool that converts photos into stunning Ghibli-style artwork using professional AI algorithms",
+    "url": "https://monsterlabs.app",
+    "icon": "https://monsterlabs.app/favicon.ico",
+    "category": "tools"
+  },
+  {
+    "name": "Ghibli AI Generator",
+    "description": "Innovative tool that transforms your photos into beautiful Ghibli-style art using advanced AI algorithms",
+    "url": "https://imagedescriber.online",
+    "icon": "https://imagedescriber.online/favicon.ico",
+    "category": "tools"
+  },
+  {
+    "name": "Ghibli AI Image Generator Free",
+    "description": "Platform that utilizes artificial intelligence to transform user photos into magical Ghibli animation style artwork",
+    "url": "https://novelvisionai.art",
+    "icon": "https://novelvisionai.art/favicon.ico",
+    "category": "tools"
+  },
+  {
+    "name": "Ghibli Art AI: Free Online Ghibli-Style Art Generator",
+    "description": "Innovative tool combining ChatGPT capabilities to generate high-quality Miyazaki-style artwork",
+    "url": "https://kiraheadshots.com",
+    "icon": "https://kiraheadshots.com/favicon/favicon-48x48.png",
+    "category": "tools"
+  },
+  {
+    "name": "Ghibli Art Generator",
+    "description": "Web-based tool that transforms ordinary photos into magical Ghibli-style art through advanced AI technology",
+    "url": "https://iconkit.dev",
+    "icon": "https://iconkit.dev/favicon.ico",
+    "category": "tools"
+  },
+  {
+    "name": "Ghibli Image Generator",
+    "description": "Online tool using AI technology to convert images into Ghibli-style artwork",
+    "url": "https://buddy.ai",
+    "icon": "https://buddy.ai/favicon.ico",
+    "category": "tools"
+  },
+  {
+    "name": "Ghibli Studio AI",
+    "description": "Top AI image generator for creating authentic Ghibli-style artwork",
+    "url": "https://sudowrite.com/muse",
+    "icon": "https://framerusercontent.com/images/u9221yvXZH9RIpZmUfXPn58aMSU.png",
+    "category": "tools"
+  },
+  {
+    "name": "Ghibli Style",
+    "description": "AI-powered tool that transforms photos into beautiful Ghibli-style artwork",
+    "url": "https://www.generateicons.co",
+    "icon": "https://www.generateicons.co/favicon.ico",
+    "category": "tools"
+  },
+  {
+    "name": "Ghibli Style Image Transformer",
+    "description": "AI-based tool that transforms your photos into enchanting Ghibli-style artwork",
+    "url": "https://play.imaginea.store",
+    "icon": "https://play.imaginea.store/favicon.ico",
+    "category": "tools"
+  },
+  {
+    "name": "Ghibli ai style",
+    "description": "Tool using advanced AI technology to convert images into Ghibli-style artwork without registration",
+    "url": "https://www.heartvoicegifts.com/",
+    "icon": "https://www.heartvoicegifts.com/favicon.ico",
+    "category": "tools"
+  },
+  {
+    "name": "Ghiblio Art",
+    "description": "Generate Miyazaki-style artwork with Ghiblio, no login required. Multiple AI models support creating Totoro and Spirited Away themed illustrations and wallpapers",
+    "url": "https://www.reshot.ai",
+    "icon": "https://www.reshot.ai/favicon.ico",
+    "category": "tools"
+  },
+  {
+    "name": "Studio Ghibli AI",
+    "description": "AI image generation tools for creating stunning Ghibli art style visuals",
+    "url": "https://picoai.app",
+    "icon": "https://picoai.app/favicon.ico",
+    "category": "tools"
   }
 ] 
