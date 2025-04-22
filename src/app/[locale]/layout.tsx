@@ -34,8 +34,10 @@ export default async function RootLayout({ children, params: { locale } }: RootL
     <html lang={locale}>
       <head>
         <link rel="canonical" href={`https://generateghibli.org/${locale}`} />
-        {/* 添加favicon */}
-        <link rel="icon" href="/images/posts/WechatIMG100.jpg" type="image/jpeg" />
+        {/* 网站图标设置 */}
+        <link rel="icon" href="/favicon.jpg" type="image/jpeg" />
+        <link rel="apple-touch-icon" href="/favicon.jpg" />
+        <link rel="shortcut icon" href="/favicon.jpg" type="image/jpeg" />
         {/* 添加hreflang标签用于SEO多语言支持 */}
         {locales.map((hrefLocale) => (
           <link
