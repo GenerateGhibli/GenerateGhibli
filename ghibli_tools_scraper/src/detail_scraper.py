@@ -157,7 +157,44 @@ class GhibliToolDetailScraper:
         Returns:
             域名链接
         """
-        # 尝试多种方法提取域名链接
+        # 方法0: 专门针对toolify.ai页面上的"打开网站"按钮
+        if "toolify.ai" in original_url:
+            # 查找"打开网站"按钮
+            open_website_buttons = []
+            
+            # 查找包含"打开网站"文本的元素
+            for span in soup.find_all("span"):
+                if span.get_text() and ("打开网站" in span.get_text() or "Open Website" in span.get_text() or "View Website" in span.get_text()):
+                    # 找到包含此span的a标签
+                    parent = span.parent
+                    while parent and parent.name != "a":
+                        parent = parent.parent
+                    
+                    if parent and parent.name == "a" and parent.get("href"):
+                        open_website_buttons.append(parent)
+            
+            # 如果找到"打开网站"按钮，返回其href属性
+            if open_website_buttons:
+                return open_website_buttons[0].get("href", "")
+            
+            # 查找可能的"打开网站"按钮类
+            button_selectors = [
+                "a.to-view-btn", 
+                "a[class*='view-btn']",
+                "a[class*='open']",
+                "a.flex-1",
+                "a.bg-purple-1300",
+                "a[target='_blank']"
+            ]
+            
+            for selector in button_selectors:
+                buttons = soup.select(selector)
+                if buttons:
+                    for button in buttons:
+                        # 检查按钮内是否包含"打开"、"open"、"view"等文本
+                        button_text = button.get_text().lower()
+                        if any(keyword in button_text for keyword in ["打开", "open", "view", "visit", "try"]):
+                            return button.get("href", "")
         
         # 方法1: 查找包含"官方网站"、"官网"、"网站"、"website"、"official"等关键词的链接
         keywords = ["官方网站", "官网", "网站", "website", "official", "homepage", "home page", "visit", "try", "open"]

@@ -69,6 +69,10 @@ class GhibliResourceFormatter:
                 # 去除URL中的utm参数
                 url = self._clean_url(url)
                 
+                # 修复特殊情况
+                if "kekebe.com" in url and "#tools" in url:
+                    url = url.split("#tools")[0]
+                
                 # 获取描述
                 description = tool.get('detailed_description', '')
                 if not description:
