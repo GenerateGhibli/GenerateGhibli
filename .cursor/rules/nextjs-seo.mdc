@@ -1,0 +1,107 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+## 项目结构
+
+本项目是基于Next.js的全栈应用，使用最新的App Router架构。主要目录结构如下：
+
+- [src/app](mdc:src/app) - 应用的主要路由和页面组件
+- [src/components](mdc:src/components) - 可复用的UI组件
+- [src/lib](mdc:src/lib) - 工具函数和库
+- [src/utils](mdc:src/utils) - 通用工具函数
+- [public](mdc:public) - 静态资源文件
+
+## SEO最佳实践
+
+### 元数据处理
+
+在每个页面组件中，应使用Next.js的metadata API来处理SEO元数据：
+
+```typescript
+// 在页面组件中使用metadata
+export const metadata = {
+  title: '页面标题 | 网站名称',
+  description: '页面详细描述，建议保持在150-160字符以内',
+  openGraph: {
+    title: '社交媒体分享标题',
+    description: '社交媒体分享描述',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: '图片描述',
+      },
+    ],
+  },
+};
+```
+
+### 图片优化
+
+使用Next.js的Image组件优化图片加载：
+
+```typescript
+import Image from 'next/image';
+
+// 使用示例
+<Image 
+  src="/image.jpg" 
+  alt="描述性替代文本" 
+  width={800} 
+  height={600} 
+  priority={true} // 对首屏重要图片使用
+  loading="lazy" // 对非首屏图片使用
+/>
+```
+
+### 链接处理
+
+正确使用Next.js的Link组件进行内部导航：
+
+```typescript
+import Link from 'next/link';
+
+// 使用示例
+<Link href="/about">关于我们</Link>
+```
+
+### 结构化数据
+
+为页面添加结构化数据，提升在搜索引擎中的展示效果：
+
+```typescript
+// 在页面组件中添加JSON-LD
+export default function Page() {
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'WebPage',
+            name: '页面名称',
+            description: '页面描述',
+            // 其他结构化数据属性
+          }),
+        }}
+      />
+      {/* 页面内容 */}
+    </>
+  );
+}
+```
+
+## 性能优化
+
+1. 使用组件级别代码分割和懒加载
+2. 实现增量静态再生成(ISR)以提供最新内容
+3. 优先考虑服务器组件以减少客户端JavaScript
+4. 使用适当的缓存策略
+
+## 国际化(i18n)处理
+
+本项目使用[src/i18n.js](mdc:src/i18n.js)和[src/i18n](mdc:src/i18n)目录实现国际化功能。添加或修改翻译时，请遵循既有模式。

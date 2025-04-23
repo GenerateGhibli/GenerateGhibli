@@ -1,0 +1,95 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+## 技术栈
+
+本项目使用以下技术栈：
+
+- [Next.js](mdc:https:/nextjs.org) - React框架，使用App Router架构
+- [TypeScript](mdc:https:/www.typescriptlang.org) - 提供类型安全
+- [Tailwind CSS](mdc:https:/tailwindcss.com) - 用于样式设计
+- [Cloudflare Workers](mdc:https:/workers.cloudflare.com) - 用于部署和边缘计算
+
+## 开发规范
+
+### 代码风格
+
+- 使用ESLint进行代码规范检查，配置文件为[.eslintrc.json](mdc:.eslintrc.json)
+- TypeScript配置见[tsconfig.json](mdc:tsconfig.json)
+- 遵循函数式编程原则，避免副作用
+
+### 组件开发
+
+- 组件应放在[src/components](mdc:src/components)目录下
+- 页面级组件应放在[src/app](mdc:src/app)目录中对应的路由目录下
+- 尽可能使用服务器组件（Server Components），仅在必要时使用客户端组件
+- 客户端组件文件名应以`.client.tsx`结尾
+
+示例服务器组件：
+```typescript
+// 服务器组件示例
+import { fetchData } from '@/lib/api';
+
+export default async function ServerComponent() {
+  const data = await fetchData();
+  
+  return (
+    <div>
+      {data.map(item => (
+        <div key={item.id}>{item.name}</div>
+      ))}
+    </div>
+  );
+}
+```
+
+示例客户端组件：
+```typescript
+'use client';
+
+// 客户端组件示例
+import { useState } from 'react';
+
+export default function ClientComponent() {
+  const [count, setCount] = useState(0);
+  
+  return (
+    <button onClick={() => setCount(count + 1)}>
+      点击次数: {count}
+    </button>
+  );
+}
+```
+
+### API调用
+
+- 服务器API函数应放在[src/app/api](mdc:src/app/api)目录下
+- 客户端API调用应使用自定义钩子，放在[src/lib](mdc:src/lib)目录下
+
+### 状态管理
+
+- 对于简单组件，使用React的useState和useReducer
+- 对于复杂状态，考虑使用React Context或其他状态管理库
+
+## 部署流程
+
+本项目使用Cloudflare Pages和Workers进行部署：
+
+1. 代码提交到主分支后自动触发构建
+2. 使用[wrangler.jsonc](mdc:wrangler.jsonc)配置部署设置
+3. 静态资源通过Cloudflare Pages托管
+4. API路由通过Cloudflare Workers处理
+
+## 性能监控
+
+定期监控以下性能指标：
+
+1. 首次内容绘制(FCP)
+2. 最大内容绘制(LCP)
+3. 首次输入延迟(FID)
+4. 累积布局偏移(CLS)
+5. 首字节时间(TTFB)
+
+应确保所有页面达到"良好"评级标准。
