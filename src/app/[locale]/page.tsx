@@ -3,15 +3,50 @@ import { getSortedPostsData } from '@/lib/posts'
 import { getResourcesData } from '@/lib/resources'
 import { StaticResourceList } from '@/components/StaticResourceList.js'
 import { StaticArticleList } from '@/components/StaticArticleList'
-import { generateMetadata as generatePageMetadata } from '@/lib/metadata'
 import { getNamespaceTranslations, TranslationNamespace } from '@/lib/translations'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Metadata } from 'next'
 
-// 静态导出元数据生成函数
-export function generateMetadata({ params }: { params: { locale: string } }): Metadata {
-  return generatePageMetadata({ locale: params.locale });
+// 直接在此处定义并导出 generateMetadata 函数
+export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
+  // 获取首页的本地化文本
+  const homeText = getNamespaceTranslations(params.locale, 'home' as TranslationNamespace);
+
+  // 从 homeText 中获取标题和描述，如果不存在则提供备用值
+  const title = homeText.metaTitle || homeText.title || 'GenerateGhibli 首页'; // 优先使用 metaTitle，其次是 h1 标题，最后是默认值
+  const description = homeText.metaDescription || homeText.description || '探索吉卜力风格 AI 图像生成的世界，发现工具、模型和灵感。'; // 优先使用 metaDescription，其次是页面描述，最后是默认值
+
+  // （可选）定义 Open Graph 和 Twitter 的特定图片，如果首页需要不同于全局设置的图片
+  // const ogImageUrl = '/og-home.jpg'; // 假设首页有特定的 OG 图片
+
+  return {
+    title: title, // 设置页面特定标题
+    description: description, // 设置页面特定描述
+    openGraph: {
+      // 可以继承 layout.tsx 中的大部分 OG 设置，但覆盖特定字段
+      title: title,
+      description: description,
+      // 如果首页有特定图片，则覆盖 images
+      // images: [
+      //   {
+      //     url: ogImageUrl,
+      //     width: 1200,
+      //     height: 630,
+      //     alt: title, // 使用页面标题作为 alt 文本
+      //   },
+      // ],
+    },
+    twitter: {
+       // 可以继承 layout.tsx 中的大部分 Twitter 设置，但覆盖特定字段
+      title: title,
+      description: description,
+      // 如果首页有特定图片，则覆盖 images
+      // images: [ogImageUrl],
+    },
+    // 可以添加页面特定的关键词
+    // keywords: ['首页关键词1', '首页关键词2'],
+  };
 }
 
 export default function Home({ params }: { params: { locale: string } }) {
