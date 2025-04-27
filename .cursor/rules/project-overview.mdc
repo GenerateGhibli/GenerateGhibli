@@ -1,0 +1,42 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# GenerateGhibli 项目概览
+
+GenerateGhibli 是一个基于 Next.js 的吉卜力风格 AI 图像生成资源导航站。
+
+## 关键文件和目录
+
+*   **入口点**: 网站首页位于 [src/app/page.tsx](mdc:src/app/page.tsx)。
+*   **内容处理**: Markdown 文章处理逻辑在 [src/lib/posts.js](mdc:src/lib/posts.js)。资源数据存储在 `data/json/resources.json` (通过 GitHub API 管理)。文章内容存储在 `data/md/` 目录下。
+*   **认证**: 认证逻辑 (JWT) 位于 [src/lib/auth.js](mdc:src/lib/auth.js)。
+*   **国际化**: 国际化配置在 [src/i18n.js](mdc:src/i18n.js)。翻译文件位于 `messages/` 目录下。
+*   **中间件**: 路由和国际化中间件在 [src/middleware.js](mdc:src/middleware.js)。
+*   **核心组件**:
+    *   资源列表: [src/components/ResourceList.js](mdc:src/components/ResourceList.js) (以及对应的服务器组件 `StaticResourceList`)
+    *   文章列表: [src/components/ArticleList.js](mdc:src/components/ArticleList.js) (以及对应的服务器组件 `StaticArticleList`)
+    *   UI 组件: [src/components/ui/](mdc:src/components/ui) (基于 Shadcn/UI)
+*   **API 路由**:
+    *   登录/登出: [src/app/api/login/route.js](mdc:src/app/api/login/route.js), [src/app/api/logout/route.js](mdc:src/app/api/logout/route.js)
+    *   认证检查: [src/app/api/check-auth/route.js](mdc:src/app/api/check-auth/route.js)
+    *   内容管理 (文章/资源): [src/app/api/articles/](mdc:src/app/api/articles), [src/app/api/resources/](mdc:src/app/api/resources)
+*   **配置文件**: 环境变量配置在 [.env.local](mdc:.env.local)。
+
+## 技术栈
+
+*   框架: [Next.js](mdc:https:/nextjs.org) (App Router)
+*   样式: [Tailwind CSS](mdc:https:/tailwindcss.com), [Shadcn/UI](mdc:https:/ui.shadcn.com)
+*   内容管理: [GitHub API](mdc:https:/docs.github.com/en/rest), 本地 Markdown/JSON 文件
+*   国际化: [next-intl](mdc:https:/next-intl-docs.vercel.app)
+*   认证: [jose](mdc:https:/github.com/panva/jose) (JWT)
+
+## 设计模式
+
+*   组件分离: 服务器组件 (数据获取，前缀 `Static`) 和客户端组件 (交互)。
+*   命名约定: 组件 (PascalCase), 模块 (camelCase)。
+*   数据流: 自顶向下通过 props 传递。
+*   API: REST 风格。
+
+参考 [README.md](mdc:README.md) 获取更详细信息。
