@@ -1,0 +1,373 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# GenerateGhibli 部署指南
+
+## 部署概览
+
+GenerateGhibli 项目专为 Cloudflare Pages 优化部署，支持全球 CDN 分发和边缘计算。
+
+## Cloudflare Pages 部署
+
+### 1. 自动部署配置
+
+#### 环境要求
+- Node.js 18+ 
+- npm 或 yarn
+- Git 仓库托管 (GitHub/GitLab)
+- Cloudflare 账户
+
+#### 部署命令
+```bash
+# 构建项目
+npm run build
+
+# 预览部署
+npm run preview
+
+# 部署到 Cloudflare Pages
+npm run deploy
+
+# 仅上传文件
+npm run upload
+```
+
+#### 配置文件
+主要配置文件: [wrangler.jsonc](mdc:wrangler.jsonc)
+
+```json
+{
+  "name": "generateghibli",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2024-12-30",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  }
+}
+```
+
+### 2. 构建配置
+
+#### Next.js 配置
+配置文件: [next.config.mjs](mdc:next.config.mjs)
+
+关键配置:
+- `output: 'standalone'`: 生成独立的应用程序包
+- `experimental.serverComponentsExternalPackages`: 外部包配置
+- Webpack 自定义配置处理 .md 文件
+
+#### OpenNext 配置
+配置文件: [open-next.config.ts](mdc:open-next.config.ts)
+
+用于将 Next.js 应用适配到 Cloudflare Pages 环境。
+
+### 3. 环境变量配置
+
+#### 本地开发环境
+文件: [.env.local](mdc:.env.local)
+
+```env
+GITHUB_TOKEN=your_github_token
+GITHUB_OWNER=GenerateGhibli
+GITHUB_REPO=GenerateGhibli
+JWT_SECRET=your_jwt_secret
+DOMAIN=localhost
+ACCESS_PASSWORD=your_admin_password
+```
+
+#### 生产环境变量
+在 Cloudflare Pages 控制台设置以下环境变量:
+
+| 变量名 | 描述 | 示例值 |
+|--------|------|--------|
+| `GITHUB_TOKEN` | GitHub Personal Access Token | `ghp_...` |
+| `GITHUB_OWNER` | GitHub 用户名或组织名 | `GenerateGhibli` |
+| `GITHUB_REPO` | 仓库名称 | `GenerateGhibli` |
+| `JWT_SECRET` | JWT 签名密钥 | `your-secret-key` |
+| `DOMAIN` | 域名 | `generateghibli.org` |
+| `ACCESS_PASSWORD` | 管理员密码 | `secure-password` |
+
+### 4. 域名配置
+
+#### 自定义域名
+1. 在 Cloudflare Pages 控制台添加自定义域名
+2. 配置 DNS 记录指向 Cloudflare
+3. 启用 HTTPS 和 HTTP/2
+
+#### SSL/TLS 配置
+- 自动 SSL 证书
+- 强制 HTTPS 重定向
+- HTTP Strict Transport Security (HSTS)
+
+## 构建流程
+
+### 1. 构建过程
+
+```mermaid
+graph TD
+    A[源代码] --> B[Next.js 构建]
+    B --> C[OpenNext 适配]
+    C --> D[Cloudflare Worker]
+    D --> E[静态资源]
+    E --> F[全球 CDN 分发]
+```
+
+### 2. 构建优化
+
+#### 代码分割
+- 自动路由级代码分割
+- 动态导入优化
+- 第三方库分离
+
+#### 资源优化
+- 图片压缩和 WebP 转换
+- CSS 和 JavaScript 压缩
+- 静态资源缓存策略
+
+#### 服务端渲染
+- 页面预渲染
+- 动态路由支持
+- API 路由处理
+
+## CI/CD 配置
+
+### GitHub Actions 工作流
+
+创建 `.github/workflows/deploy.yml`:
+
+```yaml
+name: Deploy to Cloudflare Pages
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Build project
+        run: npm run build
+        
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: generateghibli
+          directory: .open-next
+```
+
+### 自动化部署
+
+#### 触发条件
+- 主分支推送
+- Pull Request 合并
+- 手动触发
+
+#### 部署策略
+- 蓝绿部署
+- 回滚机制
+- 健康检查
+
+## 监控和日志
+
+### 1. Cloudflare Analytics
+
+#### 性能监控
+- 页面加载时间
+- 带宽使用情况
+- 错误率统计
+- 地理分布数据
+
+#### 用户行为分析
+- 页面访问量
+- 用户路径分析
+- 设备和浏览器统计
+
+### 2. 错误监控
+
+#### 客户端错误
+- JavaScript 错误捕获
+- 网络请求失败
+- 用户界面异常
+
+#### 服务端错误
+- API 请求错误
+- 数据库连接问题
+- 第三方服务故障
+
+### 3. 日志记录
+
+#### 访问日志
+- 请求路径和参数
+- 响应状态码
+- 处理时间
+
+#### 应用日志
+- 关键业务操作
+- 错误堆栈信息
+- 性能指标
+
+## 缓存策略
+
+### 1. 静态资源缓存
+
+#### 缓存配置
+```javascript
+// 静态资源缓存 1 年
+Cache-Control: public, max-age=31536000, immutable
+
+// HTML 页面缓存 1 小时
+Cache-Control: public, max-age=3600
+```
+
+#### 缓存失效
+- 版本化文件名
+- 内容哈希
+- 手动清除缓存
+
+### 2. API 缓存
+
+#### 数据缓存
+- GitHub API 响应缓存
+- 文章内容缓存
+- 资源列表缓存
+
+#### 缓存策略
+- 时间基础过期
+- 基于内容的失效
+- 条件请求支持
+
+## 性能优化
+
+### 1. 全球分发
+
+#### CDN 优势
+- 99.9% 可用性
+- 全球边缘节点
+- 自动故障转移
+
+#### 性能指标
+- TTFB < 200ms
+- 页面加载时间 < 2s
+- 移动设备优化
+
+### 2. 资源优化
+
+#### 图片优化
+- 自动 WebP 转换
+- 响应式图片
+- 懒加载支持
+
+#### 代码优化
+- Tree shaking
+- 代码压缩
+- 模块联邦
+
+## 故障排除
+
+### 1. 常见部署问题
+
+#### 构建失败
+- 检查 Node.js 版本兼容性
+- 验证环境变量配置
+- 查看构建日志
+
+#### 运行时错误
+- 检查 Cloudflare Worker 日志
+- 验证 API 路由配置
+- 测试数据库连接
+
+### 2. 性能问题
+
+#### 页面加载慢
+- 检查静态资源大小
+- 优化图片压缩
+- 减少 JavaScript 包大小
+
+#### API 响应慢
+- 优化数据库查询
+- 增加缓存层
+- 减少外部 API 调用
+
+### 3. 调试工具
+
+#### 开发环境
+- Next.js 开发服务器
+- Cloudflare Pages 预览
+- 本地调试配置
+
+#### 生产环境
+- Cloudflare Dashboard
+- 浏览器开发者工具
+- 第三方监控服务
+
+## 安全考虑
+
+### 1. 环境变量安全
+
+#### 敏感信息保护
+- 不在代码中硬编码密钥
+- 使用环境变量管理
+- 定期轮换密钥
+
+#### 访问控制
+- 最小权限原则
+- API 密钥管理
+- 认证和授权
+
+### 2. 网络安全
+
+#### HTTPS 配置
+- 强制 HTTPS
+- TLS 1.3 支持
+- 安全标头配置
+
+#### 防护措施
+- DDoS 保护
+- Bot 检测
+- 速率限制
+
+## 备份和恢复
+
+### 1. 数据备份
+
+#### 内容备份
+- GitHub 仓库备份
+- 定期快照
+- 版本控制
+
+#### 配置备份
+- 环境变量导出
+- 部署配置保存
+- 域名设置记录
+
+### 2. 恢复流程
+
+#### 快速恢复
+- 回滚到上一版本
+- 重新部署
+- 缓存清除
+
+#### 完整恢复
+- 从备份恢复数据
+- 重新配置环境
+- 验证功能完整性

@@ -1,0 +1,183 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# GenerateGhibli 技术开发指南
+
+## 项目技术栈概览
+
+GenerateGhibli 是一个基于 Next.js 14 的现代化 Web 应用，专注于吉卜力风格 AI 图像生成资源导航。
+
+### 核心技术栈
+
+#### 前端框架
+- **Next.js 14**: 使用 App Router 架构，支持服务器端渲染和客户端交互
+- **React 18**: 函数式组件和 Hooks 模式
+- **TypeScript**: 部分组件和配置文件使用 TypeScript
+
+#### 样式系统
+- **Tailwind CSS**: 实用优先的 CSS 框架
+- **Shadcn/UI**: 基于 Radix UI 的组件库，位于 [src/components/ui/](mdc:src/components/ui)
+- **CSS Modules**: 组件级别的样式隔离
+
+#### 国际化
+- **next-intl**: Next.js 专用的国际化解决方案
+- **配置文件**: [src/i18n.js](mdc:src/i18n.js) 和 [src/i18n/](mdc:src/i18n)
+- **翻译文件**: [messages/](mdc:messages) 目录下的 JSON 文件
+
+#### 内容管理
+- **Markdown**: 使用 gray-matter 和 remark 处理文章内容
+- **文章处理**: 核心逻辑在 [src/lib/posts.js](mdc:src/lib/posts.js)
+- **资源管理**: 通过 [src/lib/resources.js](mdc:src/lib/resources.js) 处理
+
+#### 认证系统
+- **JWT**: 使用 jose 库实现无状态认证
+- **认证逻辑**: [src/lib/auth.js](mdc:src/lib/auth.js)
+- **中间件**: [src/middleware.js](mdc:src/middleware.js)
+
+#### 状态管理
+- **React Hooks**: useState, useEffect 等原生 Hooks
+- **Context API**: 用于跨组件状态共享
+- **服务器状态**: 通过 Next.js 的服务器组件管理
+
+## 项目架构设计
+
+### 目录结构
+```
+src/
+├── app/                    # App Router 页面
+│   ├── [locale]/          # 国际化路由
+│   │   ├── admin/         # 管理后台
+│   │   ├── login/         # 登录页面
+│   │   ├── posts/         # 文章页面
+│   │   └── resources/     # 资源页面
+│   ├── api/               # API 路由
+│   └── globals.css        # 全局样式
+├── components/            # React 组件
+│   ├── ui/               # UI 组件库
+│   └── *.js              # 业务组件
+├── lib/                  # 工具函数和配置
+├── i18n/                 # 国际化配置
+└── utils/                # 实用工具
+```
+
+### 组件设计模式
+
+#### 1. 服务器组件 vs 客户端组件
+- **服务器组件**: 用于数据获取和静态渲染，命名前缀 `Static`
+- **客户端组件**: 用于交互和状态管理，使用 `"use client"` 指令
+
+#### 2. 组件命名规范
+- **React 组件**: PascalCase (如 `ResourceList.js`)
+- **工具模块**: camelCase (如 `posts.js`)
+- **页面组件**: page.tsx 或 page.js
+
+#### 3. 数据流设计
+- **自顶向下**: 父组件通过 props 向子组件传递数据
+- **状态提升**: 共享状态提升到最近的公共父组件
+- **服务器端数据**: 在服务器组件中获取，传递给客户端组件
+
+### API 设计
+
+#### REST API 结构
+```
+/api/
+├── login/              # 登录认证
+├── logout/             # 登出
+├── check-auth/         # 认证检查
+├── articles/           # 文章管理
+│   ├── create/         # 创建文章
+│   └── [id]/          # 文章操作
+└── resources/          # 资源管理
+```
+
+#### 错误处理
+- 统一的错误响应格式
+- HTTP 状态码标准化
+- 客户端错误边界处理
+
+## 编码规范
+
+### JavaScript/TypeScript 规范
+- 使用 ES6+ 语法特性
+- 优先使用 const 和 let，避免 var
+- 函数组件优先于类组件
+- 使用解构赋值提取对象属性
+
+### React 编码规范
+- 使用函数式组件和 Hooks
+- 组件 props 使用 TypeScript 类型定义
+- 合理使用 useEffect 和依赖数组
+- 避免不必要的重新渲染
+
+### 样式规范
+- 使用 Tailwind 实用类优先
+- 避免内联样式
+- 使用语义化的 CSS 类名
+- 响应式设计优先
+
+### 国际化规范
+- 所有用户可见文本都要国际化
+- 使用描述性的翻译键名
+- 支持动态内容的国际化
+- 正确处理 RTL 语言
+
+## 性能优化
+
+### 构建优化
+- 使用 Next.js 的自动代码分割
+- 静态生成 (SSG) 优化 SEO
+- 图片优化和懒加载
+- 缓存策略配置
+
+### 运行时优化
+- React.memo 防止无意义重渲染
+- 使用 useMemo 和 useCallback 优化重计算
+- 合理的 bundle 分割
+- 预加载关键资源
+
+## 开发工具配置
+
+### ESLint 配置
+- 使用 Next.js 推荐的 ESLint 配置
+- 配置文件: [eslint.config.mjs](mdc:eslint.config.mjs)
+- 支持 TypeScript 和 React 规则
+
+### Tailwind 配置
+- 自定义主题配置: [tailwind.config.ts](mdc:tailwind.config.ts)
+- 吉卜力风格的颜色主题
+- 响应式设计断点设置
+
+### Next.js 配置
+- 配置文件: [next.config.mjs](mdc:next.config.mjs)
+- 支持 Cloudflare Pages 部署
+- Webpack 自定义配置支持 .md 文件
+
+## 常见问题解决
+
+### 1. 国际化问题
+- 确保所有页面都在 `[locale]` 路由下
+- 客户端组件需要 `NextIntlClientProvider` 包装
+- 服务器组件使用 `getTranslations` 获取翻译
+
+### 2. 认证问题
+- JWT 令牌存储在 HTTP-only Cookie 中
+- 中间件自动处理认证路由保护
+- API 路由使用 `verifyToken` 验证身份
+
+### 3. 构建问题
+- Cloudflare Pages 需要特殊的 Webpack 配置
+- 文件系统模块在服务器端被禁用
+- 使用 raw-loader 处理 Markdown 文件
+
+## 最佳实践
+
+1. **组件设计**: 单一职责原则，可复用性优先
+2. **状态管理**: 最小化状态，避免过度设计
+3. **错误处理**: 优雅降级，用户友好的错误提示
+4. **性能**: 延迟加载，代码分割，缓存策略
+5. **可维护性**: 清晰的代码结构，充分的文档注释
+6. **国际化**: 设计时考虑多语言支持
+7. **SEO**: 服务器端渲染，元数据优化
+8. **无障碍性**: 语义化 HTML，ARIA 属性支持
